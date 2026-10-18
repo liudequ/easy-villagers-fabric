@@ -7,10 +7,12 @@ import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
 import net.minecraft.class_1299;
 import net.minecraft.class_1646;
 import net.minecraft.class_1799;
+import net.minecraft.class_1916;
 import net.minecraft.class_1937;
 import net.minecraft.class_2338;
 import net.minecraft.class_2487;
 import net.minecraft.class_2586;
+import net.minecraft.class_2591;
 import net.minecraft.class_2596;
 import net.minecraft.class_2602;
 import net.minecraft.class_2622;
@@ -21,13 +23,17 @@ public class TraderBlockEntity extends class_2586 {
     public static final String WORKSTATION_DATA_KEY = "StoredWorkstation";
     public static final String RESTOCK_TIME_KEY = "LastRestockTime";
 
-    private class_2487 villagerTag = null;
-    private class_1646 cachedVillager = null;
-    private class_1799 workstation = class_1799.field_8037;
-    private long lastRestockTime = 0;
+    protected class_2487 villagerTag = null;
+    protected class_1646 cachedVillager = null;
+    protected class_1799 workstation = class_1799.field_8037;
+    protected long lastRestockTime = 0;
 
     public TraderBlockEntity(class_2338 pos, class_2680 state) {
-        super(ModBlocks.TRADER_BLOCK_ENTITY, pos, state);
+        this(ModBlocks.TRADER_BLOCK_ENTITY, pos, state);
+    }
+
+    protected TraderBlockEntity(class_2591<?> type, class_2338 pos, class_2680 state) {
+        super(type, pos, state);
     }
 
     public boolean hasVillager() {
@@ -118,13 +124,19 @@ public class TraderBlockEntity extends class_2586 {
         return stack;
     }
 
-    private void syncVillagerNbtFromEntity(class_1646 villager, String profId) {
+    protected void syncVillagerNbtFromEntity(class_1646 villager, String profId) {
         if (villager == null || this.villagerTag == null) return;
         class_2487 entityTag = new class_2487();
         villager.method_5647(entityTag);
         this.villagerTag.method_10566(VillagerItem.ENTITY_TAG, entityTag);
         this.villagerTag.method_10582(VillagerItem.PROFESSION_KEY, VillagerItem.getProfessionName(profId));
         this.villagerTag.method_10582(VillagerItem.LEVEL_KEY, VillagerItem.getLevelName(1));
+    }
+
+    public class_1916 getVillagerTrades() {
+        class_1646 villager = getOrCreateCachedVillager();
+        if (villager == null) return null;
+        return villager.method_8264();
     }
 
     public class_1646 getOrCreateCachedVillager() {

@@ -10,7 +10,11 @@ A Fabric 1.20.1 port and evolution of the popular [Easy Villagers](https://githu
   - Insert any of the 13 vanilla workstations (Lectern, Blast Furnace, etc.) directly into the showcase with dual miniature 3D rendering.
   - Sneak + Right Click to prioritize extracting the workstation, instantly resetting unlocked villagers back to unemployed. Re-insert to cycle trades in 1 second!
   - Integrated server-side block ticker auto-restocks trades twice a day without entity AI/pathfinding lag.
-- [ ] **Auto Trader (Phase 3)**: Automatic trades with hopper/container input & output.
+- [x] **Auto Trader (Phase 3)**:
+  - 1x1 automated trading block (`easy_villagers:auto_trader`) crafted with a Trader Showcase + Hopper + Redstone.
+  - SidedInventory automation: 4 input slots (top/sides) and 4 output slots (bottom) natively supporting hoppers and pipe mods.
+  - Cycle target trade recipe easily by right-clicking with a Redstone Dust, Redstone Torch, or Stick (Sneak to cycle backwards) with instant ActionBar HUD feedback.
+  - Background ticker executes trades automatically every 5 seconds (100 ticks), awards merchant XP, auto-restocks every minute, and drops all inventory contents safely on block break.
 - [ ] **Breeder & Incubator (Phase 4)**: Single-block automated breeding and baby villager maturation.
 - [ ] **Converter (Phase 4)**: Automated villager curing for permanent emerald trade discounts.
 - [ ] **Iron Farm & Farmer (Phase 5)**: Compact, lag-free single-block iron farming and crop harvesting.

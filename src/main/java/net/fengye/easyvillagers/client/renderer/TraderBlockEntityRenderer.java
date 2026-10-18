@@ -18,7 +18,7 @@ import net.minecraft.class_898;
 import net.minecraft.class_918;
 import org.joml.Quaternionf;
 
-public class TraderBlockEntityRenderer implements class_827<TraderBlockEntity> {
+public class TraderBlockEntityRenderer<T extends TraderBlockEntity> implements class_827<T> {
     private final class_898 entityRenderDispatcher;
     private final class_918 itemRenderer;
 
@@ -28,7 +28,7 @@ public class TraderBlockEntityRenderer implements class_827<TraderBlockEntity> {
     }
 
     @Override
-    public void method_3569(TraderBlockEntity entity, float tickDelta, class_4587 matrices, class_4597 vertexConsumers, int light, int overlay) {
+    public void method_3569(T entity, float tickDelta, class_4587 matrices, class_4597 vertexConsumers, int light, int overlay) {
         boolean hasVillager = entity.hasVillager();
         boolean hasWorkstation = entity.hasWorkstation();
 

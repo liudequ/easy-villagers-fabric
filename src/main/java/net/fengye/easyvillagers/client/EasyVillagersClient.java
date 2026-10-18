@@ -14,9 +14,11 @@ public class EasyVillagersClient implements ClientModInitializer {
 
         // 设置方块为半透明/抠图层 (Cutout)，以便透视内部的 3D 村民实体
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TRADER_BLOCK, class_1921.method_23579());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.AUTO_TRADER_BLOCK, class_1921.method_23579());
 
         // 注册交易展柜的 3D 微缩实体渲染器
         BlockEntityRendererRegistry.register(ModBlocks.TRADER_BLOCK_ENTITY, TraderBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlocks.AUTO_TRADER_BLOCK_ENTITY, TraderBlockEntityRenderer::new);
 
         System.out.println("[EasyVillagers-Client] Client Renderers registered successfully!");
     }

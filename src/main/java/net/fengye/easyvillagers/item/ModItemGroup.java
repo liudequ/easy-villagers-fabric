@@ -16,6 +16,7 @@ public class ModItemGroup {
             .method_47317((displayContext, entries) -> {
                 entries.method_45421(ModItems.VILLAGER_ITEM);
                 entries.method_45421(ModBlocks.TRADER_ITEM);
+                entries.method_45421(ModBlocks.AUTO_TRADER_ITEM);
             })
             .method_47324(); // build
 
