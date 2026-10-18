@@ -54,6 +54,14 @@ public class VillagerItem extends class_1792 {
     /**
      * 将村民实体转化为物品 ItemStack
      */
+    public static String getProfessionName(String profId) {
+        return PROFESSION_NAMES.getOrDefault(profId, profId);
+    }
+
+    public static String getLevelName(int level) {
+        return (level >= 1 && level <= 5) ? LEVEL_NAMES[level] : ("等级 " + level);
+    }
+
     public static class_1799 createFromVillager(class_1646 villager, class_1792 item) {
         class_1799 stack = new class_1799(item);
         class_2487 tag = stack.method_7948(); // getOrCreateNbt()

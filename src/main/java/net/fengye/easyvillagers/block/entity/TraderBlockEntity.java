@@ -3,9 +3,11 @@ package net.fengye.easyvillagers.block.entity;
 import net.fengye.easyvillagers.block.ModBlocks;
 import net.fengye.easyvillagers.item.ModItems;
 import net.fengye.easyvillagers.item.VillagerItem;
+import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
 import net.minecraft.class_1299;
 import net.minecraft.class_1646;
 import net.minecraft.class_1799;
+import net.minecraft.class_1937;
 import net.minecraft.class_2338;
 import net.minecraft.class_2487;
 import net.minecraft.class_2586;
@@ -16,8 +18,13 @@ import net.minecraft.class_2680;
 
 public class TraderBlockEntity extends class_2586 {
     public static final String VILLAGER_DATA_KEY = "StoredVillager";
+    public static final String WORKSTATION_DATA_KEY = "StoredWorkstation";
+    public static final String RESTOCK_TIME_KEY = "LastRestockTime";
+
     private class_2487 villagerTag = null;
     private class_1646 cachedVillager = null;
+    private class_1799 workstation = class_1799.field_8037;
+    private long lastRestockTime = 0;
 
     public TraderBlockEntity(class_2338 pos, class_2680 state) {
         super(ModBlocks.TRADER_BLOCK_ENTITY, pos, state);
@@ -31,6 +38,51 @@ public class TraderBlockEntity extends class_2586 {
         return this.villagerTag;
     }
 
+    public boolean hasWorkstation() {
+        return this.workstation != null && !this.workstation.method_7960();
+    }
+
+    public class_1799 getWorkstation() {
+        return this.workstation;
+    }
+
+    public void setWorkstation(class_1799 stack) {
+        this.workstation = stack.method_7972();
+        this.workstation.method_7939(1);
+
+        // 如果已经有村民且未锁定职业，立即转职并刷新一级交易
+        if (hasVillager()) {
+            class_1646 villager = getOrCreateCachedVillager();
+            if (villager != null && VillagerWorkstationHelper.canCycleTrade(villager)) {
+                String profId = VillagerWorkstationHelper.getProfessionId(this.workstation);
+                if (profId != null) {
+                    VillagerWorkstationHelper.applyProfession(villager, profId);
+                    syncVillagerNbtFromEntity(villager, profId);
+                }
+            }
+        }
+        markUpdated();
+    }
+
+    public class_1799 extractWorkstation() {
+        if (!hasWorkstation()) {
+            return class_1799.field_8037;
+        }
+        class_1799 extracted = this.workstation.method_7972();
+        this.workstation = class_1799.field_8037;
+
+        // 如果有村民且未锁定职业，移除工作台后瞬间还原为无业并清空交易（支持洗词条）
+        if (hasVillager()) {
+            class_1646 villager = getOrCreateCachedVillager();
+            if (villager != null && VillagerWorkstationHelper.canCycleTrade(villager)) {
+                VillagerWorkstationHelper.applyProfession(villager, "none");
+                syncVillagerNbtFromEntity(villager, "none");
+            }
+        }
+        markUpdated();
+        return extracted;
+    }
+
     public void setVillagerFromItem(class_1799 stack) {
         class_2487 nbt = stack.method_7969();
         if (nbt != null) {
@@ -39,12 +91,24 @@ public class TraderBlockEntity extends class_2586 {
             this.villagerTag = new class_2487();
         }
         this.cachedVillager = null;
+
+        // 如果展柜已经插有工作台，且新放入的村民未锁定，自动完成转职
+        if (hasWorkstation()) {
+            class_1646 villager = getOrCreateCachedVillager();
+            if (villager != null && VillagerWorkstationHelper.canCycleTrade(villager)) {
+                String profId = VillagerWorkstationHelper.getProfessionId(this.workstation);
+                if (profId != null) {
+                    VillagerWorkstationHelper.applyProfession(villager, profId);
+                    syncVillagerNbtFromEntity(villager, profId);
+                }
+            }
+        }
         markUpdated();
     }
 
     public class_1799 extractVillagerItem() {
         if (!hasVillager()) {
-            return class_1799.field_8037; // ItemStack.EMPTY
+            return class_1799.field_8037;
         }
         class_1799 stack = new class_1799(ModItems.VILLAGER_ITEM);
         stack.method_7980(this.villagerTag.method_10553());
@@ -52,6 +116,15 @@ public class TraderBlockEntity extends class_2586 {
         this.cachedVillager = null;
         markUpdated();
         return stack;
+    }
+
+    private void syncVillagerNbtFromEntity(class_1646 villager, String profId) {
+        if (villager == null || this.villagerTag == null) return;
+        class_2487 entityTag = new class_2487();
+        villager.method_5647(entityTag);
+        this.villagerTag.method_10566(VillagerItem.ENTITY_TAG, entityTag);
+        this.villagerTag.method_10582(VillagerItem.PROFESSION_KEY, VillagerItem.getProfessionName(profId));
+        this.villagerTag.method_10582(VillagerItem.LEVEL_KEY, VillagerItem.getLevelName(1));
     }
 
     public class_1646 getOrCreateCachedVillager() {
@@ -67,7 +140,25 @@ public class TraderBlockEntity extends class_2586 {
         return this.cachedVillager;
     }
 
-    private void markUpdated() {
+    public static void tick(class_1937 world, class_2338 pos, class_2680 state, TraderBlockEntity be) {
+        if (world == null || world.field_9236) return;
+        if (!be.hasVillager() || !be.hasWorkstation()) return;
+
+        long time = world.method_8510();
+        if (time - be.lastRestockTime >= 2400) {
+            class_1646 villager = be.getOrCreateCachedVillager();
+            if (villager != null) {
+                VillagerWorkstationHelper.restock(villager);
+                class_2487 entityTag = new class_2487();
+                villager.method_5647(entityTag);
+                be.villagerTag.method_10566(VillagerItem.ENTITY_TAG, entityTag);
+                be.markUpdated();
+            }
+            be.lastRestockTime = time;
+        }
+    }
+
+    public void markUpdated() {
         this.method_5431(); // markDirty()
         if (this.field_11863 != null && !this.field_11863.field_9236) {
             this.field_11863.method_8413(this.field_11867, this.method_11010(), this.method_11010(), 3);
@@ -82,6 +173,14 @@ public class TraderBlockEntity extends class_2586 {
         } else {
             this.villagerTag = null;
         }
+
+        if (nbt.method_10545(WORKSTATION_DATA_KEY)) {
+            this.workstation = class_1799.method_7915(nbt.method_10562(WORKSTATION_DATA_KEY));
+        } else {
+            this.workstation = class_1799.field_8037;
+        }
+
+        this.lastRestockTime = nbt.method_10537(RESTOCK_TIME_KEY);
         this.cachedVillager = null;
     }
 
@@ -91,6 +190,10 @@ public class TraderBlockEntity extends class_2586 {
         if (this.villagerTag != null) {
             nbt.method_10566(VILLAGER_DATA_KEY, this.villagerTag);
         }
+        if (hasWorkstation()) {
+            nbt.method_10566(WORKSTATION_DATA_KEY, this.workstation.method_7953(new class_2487()));
+        }
+        nbt.method_10544(RESTOCK_TIME_KEY, this.lastRestockTime);
     }
 
     @Override

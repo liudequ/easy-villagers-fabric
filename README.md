@@ -6,7 +6,10 @@ A Fabric 1.20.1 port and evolution of the popular [Easy Villagers](https://githu
 
 - [x] **Villager Item (Phase 1)**: Sneak + Right Click any villager with empty hand to pick them up into your inventory with full NBT preservation (profession, level, custom name, trade history, discounts). Right-click on the ground to safely release.
 - [x] **Trader Showcase Block (Phase 2)**: 1x1 glass display block (`easy_villagers:trader`) with horizontal facing and Cutout transparency. Rendered with custom 3D miniature villager entity via `TraderBlockEntityRenderer`. Right-click to open native merchant trade UI; Sneak + Right Click with empty hand to extract villager safely.
-- [ ] **Workstation Slot & Trade Cycling (Phase 2.5)**: Insert workstation block (Lectern, Blast Furnace, etc.) inside the showcase to instantly assign/cycle professions and auto-restock daily.
+- [x] **Workstation Slot & Instant Trade Cycling (Phase 2.5)**: 
+  - Insert any of the 13 vanilla workstations (Lectern, Blast Furnace, etc.) directly into the showcase with dual miniature 3D rendering.
+  - Sneak + Right Click to prioritize extracting the workstation, instantly resetting unlocked villagers back to unemployed. Re-insert to cycle trades in 1 second!
+  - Integrated server-side block ticker auto-restocks trades twice a day without entity AI/pathfinding lag.
 - [ ] **Auto Trader (Phase 3)**: Automatic trades with hopper/container input & output.
 - [ ] **Breeder & Incubator (Phase 4)**: Single-block automated breeding and baby villager maturation.
 - [ ] **Converter (Phase 4)**: Automated villager curing for permanent emerald trade discounts.
