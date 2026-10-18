@@ -56,6 +56,16 @@ public class VillagerWorkstationHelper {
         return ITEM_TO_PROFESSION.get(stack.method_7909());
     }
 
+    public static class_3852 getProfession(class_1799 stack) {
+        String profId = getProfessionId(stack);
+        if (profId == null) return null;
+        return class_7923.field_41195.method_10223(new class_2960("minecraft", profId));
+    }
+
+    public static class_3852 getNoneProfession() {
+        return class_7923.field_41195.method_10223(new class_2960("minecraft", "none"));
+    }
+
     public static boolean canCycleTrade(class_1646 villager) {
         if (villager == null) return false;
         // 未获得过经验，即未被玩家锁定

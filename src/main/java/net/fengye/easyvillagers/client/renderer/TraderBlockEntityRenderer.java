@@ -2,10 +2,13 @@ package net.fengye.easyvillagers.client.renderer;
 
 import net.fengye.easyvillagers.block.TraderBlock;
 import net.fengye.easyvillagers.block.entity.TraderBlockEntity;
+import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
 import net.minecraft.class_1646;
 import net.minecraft.class_1799;
 import net.minecraft.class_2350;
 import net.minecraft.class_2680;
+import net.minecraft.class_3850;
+import net.minecraft.class_3852;
 import net.minecraft.class_4587;
 import net.minecraft.class_4597;
 import net.minecraft.class_5614;
@@ -55,6 +58,25 @@ public class TraderBlockEntityRenderer implements class_827<TraderBlockEntity> {
         if (hasVillager) {
             class_1646 villager = entity.getOrCreateCachedVillager();
             if (villager != null) {
+                // 核心校准：强制将村民 DataTracker 的职业外观与展柜状态同步
+                if (hasWorkstation) {
+                    class_3852 prof = VillagerWorkstationHelper.getProfession(entity.getWorkstation());
+                    if (prof != null) {
+                        class_3850 data = villager.method_7231();
+                        if (data.method_16924() != prof && VillagerWorkstationHelper.canCycleTrade(villager)) {
+                            villager.method_7195(data.method_16921(prof).method_16920(Math.max(1, data.method_16925())));
+                        }
+                    }
+                } else {
+                    if (VillagerWorkstationHelper.canCycleTrade(villager)) {
+                        class_3850 data = villager.method_7231();
+                        class_3852 noneProf = VillagerWorkstationHelper.getNoneProfession();
+                        if (noneProf != null && data.method_16924() != noneProf) {
+                            villager.method_7195(data.method_16921(noneProf).method_16920(1));
+                        }
+                    }
+                }
+
                 matrices.method_22903(); // push
                 if (hasWorkstation) {
                     // 与工作台并排：偏左
