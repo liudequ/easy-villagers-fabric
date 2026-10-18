@@ -10,6 +10,8 @@ public class EasyVillagersMod implements ModInitializer {
         System.out.println("[EasyVillagers-Fabric] Initializing Easy Villagers Fabric Edition...");
         // 注册物品
         net.fengye.easyvillagers.item.ModItems.register();
+        // 注册方块与方块实体
+        net.fengye.easyvillagers.block.ModBlocks.register();
         // 注册创造模式物品组
         net.fengye.easyvillagers.item.ModItemGroup.register();
         // 注册村民抓取监听

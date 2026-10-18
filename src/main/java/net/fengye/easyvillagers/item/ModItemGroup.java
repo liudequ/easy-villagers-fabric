@@ -1,6 +1,7 @@
 package net.fengye.easyvillagers.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fengye.easyvillagers.block.ModBlocks;
 import net.minecraft.class_1761;
 import net.minecraft.class_1799;
 import net.minecraft.class_2378;
@@ -14,6 +15,7 @@ public class ModItemGroup {
             .method_47321(class_2561.method_43471("itemGroup.easy_villagers.main")) // displayName
             .method_47317((displayContext, entries) -> {
                 entries.method_45421(ModItems.VILLAGER_ITEM);
+                entries.method_45421(ModBlocks.TRADER_ITEM);
             })
             .method_47324(); // build
 
