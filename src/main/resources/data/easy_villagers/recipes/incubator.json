@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " L ",
+    " T ",
+    " H "
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:lantern"
+    },
+    "T": {
+      "item": "easy_villagers:trader"
+    },
+    "H": {
+      "item": "minecraft:hay_block"
+    }
+  },
+  "result": {
+    "item": "easy_villagers:incubator",
+    "count": 1
+  }
+}

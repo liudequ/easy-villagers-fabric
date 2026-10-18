@@ -25,6 +25,7 @@ public class VillagerItem extends class_1792 {
     public static final String PROFESSION_KEY = "ProfessionTitle";
     public static final String LEVEL_KEY = "LevelTitle";
     public static final String NAME_KEY = "CustomVillagerName";
+    public static final String BABY_KEY = "IsBaby";
 
     private static final Map<String, String> PROFESSION_NAMES = new HashMap<>();
     private static final String[] LEVEL_NAMES = {"", "新手 (Novice)", "学徒 (Apprentice)", "老手 (Journeyman)", "专家 (Expert)", "大师 (Master)"};
@@ -62,6 +63,25 @@ public class VillagerItem extends class_1792 {
         return (level >= 1 && level <= 5) ? LEVEL_NAMES[level] : ("等级 " + level);
     }
 
+    public static boolean isBaby(class_1799 stack) {
+        if (stack == null || stack.method_7960()) return false;
+        class_2487 nbt = stack.method_7969();
+        return nbt != null && nbt.method_10577(BABY_KEY);
+    }
+
+    public static class_1799 createBabyVillager(class_1792 item) {
+        class_1799 stack = new class_1799(item);
+        class_2487 tag = stack.method_7948();
+        tag.method_10582(PROFESSION_KEY, "幼年村民");
+        tag.method_10582(LEVEL_KEY, "成长中");
+        tag.method_10556(BABY_KEY, true);
+
+        class_2487 entityData = new class_2487();
+        entityData.method_10569("Age", -24000);
+        tag.method_10566(ENTITY_TAG, entityData);
+        return stack;
+    }
+
     public static class_1799 createFromVillager(class_1646 villager, class_1792 item) {
         class_1799 stack = new class_1799(item);
         class_2487 tag = stack.method_7948(); // getOrCreateNbt()
@@ -71,16 +91,24 @@ public class VillagerItem extends class_1792 {
         villager.method_5647(entityData); // saveNbt()
         tag.method_10566(ENTITY_TAG, entityData);
 
-        // 提取职业信息
-        class_3850 villagerData = villager.method_7231();
-        String profId = villagerData.method_16924().comp_818();
-        String profName = PROFESSION_NAMES.getOrDefault(profId, profId);
-        tag.method_10582(PROFESSION_KEY, profName);
+        boolean baby = villager.method_6109(); // isBaby()
+        tag.method_10556(BABY_KEY, baby);
 
-        // 提取等级信息
-        int level = villagerData.method_16925();
-        String levelName = (level >= 1 && level <= 5) ? LEVEL_NAMES[level] : ("等级 " + level);
-        tag.method_10582(LEVEL_KEY, levelName);
+        if (baby) {
+            tag.method_10582(PROFESSION_KEY, "幼年村民");
+            tag.method_10582(LEVEL_KEY, "成长中");
+        } else {
+            // 提取职业信息
+            class_3850 villagerData = villager.method_7231();
+            String profId = villagerData.method_16924().comp_818();
+            String profName = PROFESSION_NAMES.getOrDefault(profId, profId);
+            tag.method_10582(PROFESSION_KEY, profName);
+
+            // 提取等级信息
+            int level = villagerData.method_16925();
+            String levelName = (level >= 1 && level <= 5) ? LEVEL_NAMES[level] : ("等级 " + level);
+            tag.method_10582(LEVEL_KEY, levelName);
+        }
 
         // 自定义名称
         if (villager.method_16914()) { // hasCustomName
@@ -114,6 +142,10 @@ public class VillagerItem extends class_1792 {
                 villager.method_5651(entityData);
             }
 
+            if (nbt != null && nbt.method_10577(BABY_KEY)) {
+                villager.method_5614(-24000); // 确保设置为幼年
+            }
+
             // 分配新 UUID
             villager.method_5826(UUID.randomUUID());
 
@@ -141,20 +173,26 @@ public class VillagerItem extends class_1792 {
     public void method_7851(class_1799 stack, class_1937 world, List<class_2561> tooltip, class_1836 context) { // appendTooltip
         class_2487 nbt = stack.method_7969();
         if (nbt != null) {
-            if (nbt.method_10545(NAME_KEY)) {
-                tooltip.add(class_2561.method_43470("§b村民: §f" + nbt.method_10558(NAME_KEY)));
-            }
-            String prof = nbt.method_10558(PROFESSION_KEY);
-            String level = nbt.method_10558(LEVEL_KEY);
-
-            if (!prof.isEmpty()) {
-                tooltip.add(class_2561.method_43470("§e职业: §f" + prof));
+            boolean baby = nbt.method_10577(BABY_KEY);
+            if (baby) {
+                tooltip.add(class_2561.method_43470("§d👶 幼年村民 (Baby)"));
+                tooltip.add(class_2561.method_43470("§7状态: 成长中 (可放入孵化机快速催熟)"));
             } else {
-                tooltip.add(class_2561.method_43470("§7职业: 无业村民"));
-            }
+                if (nbt.method_10545(NAME_KEY)) {
+                    tooltip.add(class_2561.method_43470("§b村民: §f" + nbt.method_10558(NAME_KEY)));
+                }
+                String prof = nbt.method_10558(PROFESSION_KEY);
+                String level = nbt.method_10558(LEVEL_KEY);
 
-            if (!level.isEmpty()) {
-                tooltip.add(class_2561.method_43470("§a等级: §f" + level));
+                if (!prof.isEmpty()) {
+                    tooltip.add(class_2561.method_43470("§e职业: §f" + prof));
+                } else {
+                    tooltip.add(class_2561.method_43470("§7职业: 无业村民"));
+                }
+
+                if (!level.isEmpty()) {
+                    tooltip.add(class_2561.method_43470("§a等级: §f" + level));
+                }
             }
         } else {
             tooltip.add(class_2561.method_43470("§7空村民（未捕获具体数据）"));

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/hay_block_top",
+    "glass": "minecraft:block/glass",
+    "base": "minecraft:block/hay_block_top"
+  },
+  "elements": [
+    {
+      "name": "base",
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 2, 16 ],
+      "faces": {
+        "down":  { "texture": "#base", "cullface": "down" },
+        "up":    { "texture": "#base" },
+        "north": { "texture": "#base", "cullface": "north" },
+        "south": { "texture": "#base", "cullface": "south" },
+        "west":  { "texture": "#base", "cullface": "west" },
+        "east":  { "texture": "#base", "cullface": "east" }
+      }
+    },
+    {
+      "name": "glass",
+      "from": [ 1, 2, 1 ],
+      "to": [ 15, 16, 15 ],
+      "faces": {
+        "up":    { "texture": "#glass", "cullface": "up" },
+        "north": { "texture": "#glass" },
+        "south": { "texture": "#glass" },
+        "west":  { "texture": "#glass" },
+        "east":  { "texture": "#glass" }
+      }
+    }
+  ]
+}

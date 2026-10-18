@@ -15,8 +15,11 @@ A Fabric 1.20.1 port and evolution of the popular [Easy Villagers](https://githu
   - SidedInventory automation: 4 input slots (top/sides) and 4 output slots (bottom) natively supporting hoppers and pipe mods.
   - Cycle target trade recipe easily by right-clicking with a Redstone Dust, Redstone Torch, or Stick (Sneak to cycle backwards) with instant ActionBar HUD feedback.
   - Background ticker executes trades automatically every 5 seconds (100 ticks), awards merchant XP, auto-restocks every minute, and drops all inventory contents safely on block break.
-- [ ] **Breeder & Incubator (Phase 4)**: Single-block automated breeding and baby villager maturation.
-- [ ] **Converter (Phase 4)**: Automated villager curing for permanent emerald trade discounts.
+- [x] **Breeder & Incubator (Phase 4)**:
+  - **Breeder (`easy_villagers:breeder`)**: Compact single-block villager breeding station. Accommodates 2 adult villagers with 3D miniature face-to-face rendering. Includes 4 food input slots (top/sides) supporting bread, carrots, potatoes, and beetroots. Automatically breeds every 20 seconds consuming food points and outputs Baby Villager items to the output slot (hopper extractable from bottom).
+  - **Incubator (`easy_villagers:incubator`)**: Single-block rapid baby villager maturation chamber. Displays miniature baby villager inside with glowing warm hay base. Automatically accelerates maturation from 20 minutes down to 30 seconds, turning baby villager items into adult unemployed villagers extractable via hopper from bottom.
+  - **Baby Villager Item**: Extended `VillagerItem` with custom `IsBaby` NBT tag, distinct tooltip ("👶 幼年村民"), and safe world spawning.
+- [ ] **Converter (Phase 4.5)**: Automated villager curing for permanent emerald trade discounts.
 - [ ] **Iron Farm & Farmer (Phase 5)**: Compact, lag-free single-block iron farming and crop harvesting.
 
 ## Architecture

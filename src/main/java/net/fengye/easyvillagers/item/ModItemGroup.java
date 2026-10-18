@@ -17,6 +17,8 @@ public class ModItemGroup {
                 entries.method_45421(ModItems.VILLAGER_ITEM);
                 entries.method_45421(ModBlocks.TRADER_ITEM);
                 entries.method_45421(ModBlocks.AUTO_TRADER_ITEM);
+                entries.method_45421(ModBlocks.BREEDER_ITEM);
+                entries.method_45421(ModBlocks.INCUBATOR_ITEM);
             })
             .method_47324(); // build
 
