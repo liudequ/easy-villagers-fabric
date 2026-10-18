@@ -65,7 +65,7 @@ public class AutoTraderBlock extends class_2237 {
         if (stack == null || stack.method_7960()) return false;
         class_2960 id = class_7923.field_41178.method_10221(stack.method_7909());
         if (id == null) return false;
-        String path = id.method_12836();
+        String path = id.method_12832(); // 修正为 getPath()
         return path.equals("redstone") || path.equals("redstone_torch") || path.equals("stick");
     }
 

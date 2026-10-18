@@ -128,7 +128,7 @@ public class BreederBlockEntity extends class_2586 implements class_1278 {
         if (stack == null || stack.method_7960()) return false;
         class_2960 id = class_7923.field_41178.method_10221(stack.method_7909());
         if (id == null) return false;
-        String path = id.method_12836();
+        String path = id.method_12832(); // 必须使用 getPath() 即 method_12832
         return path.equals("bread") || path.equals("carrot") || path.equals("potato") || path.equals("beetroot");
     }
 
@@ -136,7 +136,7 @@ public class BreederBlockEntity extends class_2586 implements class_1278 {
         if (stack == null || stack.method_7960()) return 0;
         class_2960 id = class_7923.field_41178.method_10221(stack.method_7909());
         if (id == null) return 0;
-        String path = id.method_12836();
+        String path = id.method_12832(); // 必须使用 getPath() 即 method_12832
         if (path.equals("bread")) return 3;
         if (path.equals("carrot") || path.equals("potato") || path.equals("beetroot")) return 1;
         return 0;
@@ -163,8 +163,8 @@ public class BreederBlockEntity extends class_2586 implements class_1278 {
             } else if (class_1799.method_31577(existing, stack) && existing.method_7947() < existing.method_7914()) {
                 int space = existing.method_7914() - existing.method_7947();
                 int toAdd = Math.min(space, stack.method_7947());
-                existing.method_7939(toAdd);
-                stack.method_7934(toAdd);
+                existing.method_7933(toAdd); // increment 增量
+                stack.method_7934(toAdd);   // decrement 扣除
                 markUpdated();
                 return true;
             }
@@ -277,7 +277,7 @@ public class BreederBlockEntity extends class_2586 implements class_1278 {
     public void method_5447(int slot, class_1799 stack) {
         this.items.set(slot, stack);
         if (stack.method_7947() > method_5444()) {
-            stack.method_7939(method_5444() - stack.method_7947());
+            stack.method_7939(method_5444());
         }
         method_5431();
     }

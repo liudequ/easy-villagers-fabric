@@ -103,7 +103,7 @@ public class ConverterBlockEntity extends class_2586 implements class_1278 {
     public static boolean isGoldenApple(class_1799 stack) {
         if (stack == null || stack.method_7960()) return false;
         class_2960 id = class_7923.field_41178.method_10221(stack.method_7909());
-        return id != null && (id.method_12836().equals("golden_apple") || id.method_12836().equals("enchanted_golden_apple"));
+        return id != null && (id.method_12832().equals("golden_apple") || id.method_12832().equals("enchanted_golden_apple"));
     }
 
     public static boolean isWeaknessPotion(class_1799 stack) {
@@ -124,8 +124,8 @@ public class ConverterBlockEntity extends class_2586 implements class_1278 {
             return true;
         } else if (class_1799.method_31577(slotStack, stack) && slotStack.method_7947() < slotStack.method_7914()) {
             int toAdd = Math.min(slotStack.method_7914() - slotStack.method_7947(), stack.method_7947());
-            slotStack.method_7939(toAdd);
-            stack.method_7934(toAdd);
+            slotStack.method_7933(toAdd); // increment 增量
+            stack.method_7934(toAdd);     // decrement 扣除
             markUpdated();
             return true;
         }

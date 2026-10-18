@@ -69,18 +69,18 @@ public class BreederBlock extends class_2237 {
             return class_1269.field_5814;
         }
 
-        class_1799 mainStack = player.method_6047();
+        class_1799 heldStack = player.method_5998(hand);
 
         // 1. 放入村民
-        if (mainStack.method_7909() == ModItems.VILLAGER_ITEM) {
-            if (VillagerItem.isBaby(mainStack)) {
+        if (heldStack.method_7909() == ModItems.VILLAGER_ITEM) {
+            if (VillagerItem.isBaby(heldStack)) {
                 player.method_7353(class_2561.method_43470("§c⚠️ 幼年村民无法参与繁殖，请放入成年村民！"), true);
                 return class_1269.field_5812;
             }
             if (breeder.getVillagerCount() < 2) {
-                breeder.addVillager(mainStack);
+                breeder.addVillager(heldStack);
                 if (!player.method_7337()) {
-                    mainStack.method_7934(1);
+                    heldStack.method_7934(1);
                 }
                 player.method_7353(class_2561.method_43470("§a已将村民放入繁殖机 (" + breeder.getVillagerCount() + "/2)"), true);
                 return class_1269.field_5812;
@@ -91,8 +91,8 @@ public class BreederBlock extends class_2237 {
         }
 
         // 2. 放入食物（面包、胡萝卜、马铃薯、甜菜根）
-        if (BreederBlockEntity.isVillagerFood(mainStack)) {
-            if (breeder.insertFood(mainStack)) {
+        if (BreederBlockEntity.isVillagerFood(heldStack)) {
+            if (breeder.insertFood(heldStack)) {
                 player.method_7353(class_2561.method_43470("§a已投入食物！当前食物储备: " + breeder.getTotalFoodPoints() + " 点"), true);
                 return class_1269.field_5812;
             } else {
@@ -102,7 +102,7 @@ public class BreederBlock extends class_2237 {
         }
 
         // 3. 潜行空手取出村民
-        if (player.method_5715() && mainStack.method_7960()) {
+        if (player.method_5715() && heldStack.method_7960()) {
             if (breeder.getVillagerCount() > 0) {
                 class_1799 vil = breeder.extractVillager();
                 if (!player.method_31548().method_7394(vil)) {
