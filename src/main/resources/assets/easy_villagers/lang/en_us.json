@@ -1,0 +1,11 @@
+{
+  "itemGroup.easy_villagers.main": "Easy Villagers",
+  "item.easy_villagers.villager": "Villager",
+  "block.easy_villagers.trader": "Trader",
+  "block.easy_villagers.auto_trader": "Auto Trader",
+  "block.easy_villagers.breeder": "Breeder",
+  "block.easy_villagers.incubator": "Incubator",
+  "block.easy_villagers.converter": "Converter",
+  "block.easy_villagers.iron_farm": "Iron Farm",
+  "block.easy_villagers.farmer": "Farmer"
+}

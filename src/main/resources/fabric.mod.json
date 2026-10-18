@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "easy_villagers",
+  "version": "1.0.0",
+  "name": "Easy Villagers (Fabric)",
+  "description": "Port of Easy Villagers to Fabric 1.20.1. Pick up villagers, trade easily, and automate villager breeding & farming in single-block cages.",
+  "authors": [
+    "fengye",
+    "henkelmax (Original Concept & Forge Mod)"
+  ],
+  "contact": {
+    "sources": "https://github.com/henkelmax/easy-villagers"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/easy_villagers/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.fengye.easyvillagers.EasyVillagersMod"
+    ],
+    "client": [
+      "net.fengye.easyvillagers.client.EasyVillagersClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric": "*",
+    "minecraft": "1.20.1",
+    "java": ">=17"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "itemGroup.easy_villagers.main": "简易村民 (Easy Villagers)",
+  "item.easy_villagers.villager": "村民",
+  "block.easy_villagers.trader": "村民交易方块",
+  "block.easy_villagers.auto_trader": "全自动交易方块",
+  "block.easy_villagers.breeder": "村民繁殖方块",
+  "block.easy_villagers.incubator": "村民孵化方块",
+  "block.easy_villagers.converter": "村民转化方块",
+  "block.easy_villagers.iron_farm": "单方块刷铁机",
+  "block.easy_villagers.farmer": "农夫方块"
+}
