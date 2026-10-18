@@ -29,7 +29,7 @@ import net.minecraft.class_5558;
 import net.minecraft.class_7923;
 
 public class AutoTraderBlock extends class_2237 {
-    public static final class_2753 FACING = class_2741.field_12545;
+    public static final class_2753 FACING = class_2741.field_12481;
 
     public AutoTraderBlock(class_2248.class_2251 settings) {
         super(settings);

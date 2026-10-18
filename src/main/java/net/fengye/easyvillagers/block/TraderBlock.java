@@ -26,7 +26,7 @@ import net.minecraft.class_3965;
 import net.minecraft.class_5558;
 
 public class TraderBlock extends class_2237 {
-    public static final class_2753 FACING = class_2741.field_12545;
+    public static final class_2753 FACING = class_2741.field_12481;
 
     public TraderBlock(class_2248.class_2251 settings) {
         super(settings);

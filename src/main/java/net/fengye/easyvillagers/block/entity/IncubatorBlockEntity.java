@@ -110,7 +110,7 @@ public class IncubatorBlockEntity extends class_2586 implements class_1278 {
     }
 
     public void markUpdated() {
-        this.method_5431();
+        super.method_5431();
         if (this.field_11863 != null && !this.field_11863.field_9236) {
             this.field_11863.method_8413(this.field_11867, this.method_11010(), this.method_11010(), 3);
         }

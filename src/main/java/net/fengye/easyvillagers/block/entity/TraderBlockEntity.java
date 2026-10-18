@@ -171,7 +171,7 @@ public class TraderBlockEntity extends class_2586 {
     }
 
     public void markUpdated() {
-        this.method_5431(); // markDirty()
+        super.method_5431(); // markDirty()
         if (this.field_11863 != null && !this.field_11863.field_9236) {
             this.field_11863.method_8413(this.field_11867, this.method_11010(), this.method_11010(), 3);
         }
