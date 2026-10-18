@@ -3,6 +3,7 @@ build/
 bin/
 out/
 *.class
+.cache/
 
 # IDE and Editor
 .idea/

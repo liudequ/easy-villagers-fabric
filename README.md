@@ -3,6 +3,7 @@
 [![Minecraft 1.20.1](https://img.shields.io/badge/Minecraft-1.20.1-brightgreen.svg)](https://minecraft.net/)
 [![Fabric Loader](https://img.shields.io/badge/Loader-Fabric-blue.svg)](https://fabricmc.net/)
 [![Java 17](https://img.shields.io/badge/Java-17-orange.svg)](https://adoptium.net/)
+[![Build & Release](https://github.com/liudequ/easy-villagers-fabric/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/liudequ/easy-villagers-fabric/actions/workflows/build-and-release.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-yellow.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 > A modern, lag-free, single-block villager ecosystem for **Minecraft 1.20.1 (Fabric)**.  
