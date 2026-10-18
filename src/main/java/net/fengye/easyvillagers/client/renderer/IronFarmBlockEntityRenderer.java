@@ -41,11 +41,9 @@ public class IronFarmBlockEntityRenderer implements class_827<IronFarmBlockEntit
             matrices.method_22905(0.32f, 0.32f, 0.32f);
             matrices.method_22907(new Quaternionf().rotationY((float) Math.toRadians(35.0f)));
 
-            villager.field_6283 = 0.0f;
-            villager.field_6241 = 0.0f;
-            villager.field_6012 = 0;
+            VillagerRenderFreezeHelper.freezeRotation(villager);
 
-            this.entityRenderDispatcher.method_3954(villager, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+            this.entityRenderDispatcher.method_3954(villager, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
             matrices.method_22909();
         }
 
@@ -59,11 +57,9 @@ public class IronFarmBlockEntityRenderer implements class_827<IronFarmBlockEntit
             matrices.method_22905(0.24f, 0.24f, 0.24f);
             matrices.method_22907(new Quaternionf().rotationY((float) Math.toRadians(-20.0f)));
 
-            ironGolem.field_6283 = 0.0f;
-            ironGolem.field_6241 = 0.0f;
-            ironGolem.field_6012 = 0;
+            VillagerRenderFreezeHelper.freezeRotation(ironGolem);
 
-            this.entityRenderDispatcher.method_3954(ironGolem, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+            this.entityRenderDispatcher.method_3954(ironGolem, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
             matrices.method_22909();
         }
     }

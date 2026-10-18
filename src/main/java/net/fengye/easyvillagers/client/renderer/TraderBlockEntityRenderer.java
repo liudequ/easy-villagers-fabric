@@ -90,11 +90,9 @@ public class TraderBlockEntityRenderer<T extends TraderBlockEntity> implements c
                     matrices.method_22905(scale, scale, scale);
                 }
 
-                villager.field_6241 = 0.0f;
-                villager.field_6283 = 0.0f;
-                villager.field_6014 = 0.0f;
+                VillagerRenderFreezeHelper.freezeRotation(villager);
 
-                this.entityRenderDispatcher.method_3954(villager, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+                this.entityRenderDispatcher.method_3954(villager, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
                 matrices.method_22909(); // pop
             }
         }

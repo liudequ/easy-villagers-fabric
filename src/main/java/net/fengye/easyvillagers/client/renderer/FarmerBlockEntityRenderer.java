@@ -38,11 +38,9 @@ public class FarmerBlockEntityRenderer implements class_827<FarmerBlockEntity> {
         matrices.method_22907(new Quaternionf().rotationY((float) Math.toRadians(rotationY)));
         matrices.method_22905(0.42f, 0.42f, 0.42f);
 
-        villager.field_6283 = 0.0f;
-        villager.field_6241 = 0.0f;
-        villager.field_6012 = 0;
+        VillagerRenderFreezeHelper.freezeRotation(villager);
 
-        this.entityRenderDispatcher.method_3954(villager, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+        this.entityRenderDispatcher.method_3954(villager, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
         matrices.method_22909();
     }
 }

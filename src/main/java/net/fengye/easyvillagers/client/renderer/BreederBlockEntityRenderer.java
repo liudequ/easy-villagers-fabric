@@ -44,11 +44,12 @@ public class BreederBlockEntityRenderer implements class_827<BreederBlockEntity>
         if (hasV1) {
             class_1646 v1 = entity.getOrCreateCachedVillager1();
             if (v1 != null) {
+                VillagerRenderFreezeHelper.freezeRotation(v1);
                 matrices.method_22903();
                 matrices.method_22904(-0.22, 0.0, 0.0);
                 matrices.method_22907(new Quaternionf().rotateY((float) Math.toRadians(35)));
                 matrices.method_22905(scale, scale, scale);
-                this.entityRenderDispatcher.method_3954(v1, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+                this.entityRenderDispatcher.method_3954(v1, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
                 matrices.method_22909();
             }
         }
@@ -57,11 +58,12 @@ public class BreederBlockEntityRenderer implements class_827<BreederBlockEntity>
         if (hasV2) {
             class_1646 v2 = entity.getOrCreateCachedVillager2();
             if (v2 != null) {
+                VillagerRenderFreezeHelper.freezeRotation(v2);
                 matrices.method_22903();
                 matrices.method_22904(0.22, 0.0, 0.0);
                 matrices.method_22907(new Quaternionf().rotateY((float) Math.toRadians(-35)));
                 matrices.method_22905(scale, scale, scale);
-                this.entityRenderDispatcher.method_3954(v2, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+                this.entityRenderDispatcher.method_3954(v2, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
                 matrices.method_22909();
             }
         }

@@ -54,7 +54,8 @@ public class ConverterBlockEntityRenderer implements class_827<ConverterBlockEnt
         }
 
         if (toRender != null) {
-            this.entityRenderDispatcher.method_3954(toRender, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+            VillagerRenderFreezeHelper.freezeRotation(toRender);
+            this.entityRenderDispatcher.method_3954(toRender, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
         }
 
         matrices.method_22909(); // pop

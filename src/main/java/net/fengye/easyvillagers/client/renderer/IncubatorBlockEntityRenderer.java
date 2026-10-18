@@ -41,7 +41,8 @@ public class IncubatorBlockEntityRenderer implements class_827<IncubatorBlockEnt
         float scale = 0.4f;
         matrices.method_22905(scale, scale, scale);
 
-        this.entityRenderDispatcher.method_3954(baby, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
+        VillagerRenderFreezeHelper.freezeRotation(baby);
+        this.entityRenderDispatcher.method_3954(baby, 0.0, 0.0, 0.0, 0.0f, 0.0f, matrices, vertexConsumers, light);
 
         matrices.method_22909();
     }
