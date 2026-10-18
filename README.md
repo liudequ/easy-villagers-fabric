@@ -24,7 +24,9 @@ A Fabric 1.20.1 port and evolution of the popular [Easy Villagers](https://githu
   - SidedInventory automation: 2 input slots (top/sides) accepting Golden Apples and Weakness Potions, and 1 output slot (bottom) for hopper extraction.
   - Full automated state machine: Normal villager -> 3-second zombie infection -> 15-second high-frequency curing vibration with 3D miniature zombie model -> cured villager with permanent 1-emerald discount injected into all trade recipes.
   - Automatic Golden Apple and Potion consumption upon curing initiation.
-- [ ] **Iron Farm & Farmer (Phase 5)**: Compact, lag-free single-block iron farming and crop harvesting.
+- [x] **Iron Farm & Farmer (Phase 5)**:
+  - **Iron Farm (`easy_villagers:iron_farm`)**: 1x1 compact, zero-lag single-block iron golem farm. Accommodates 1 villager with dual 3D miniature Iron Golem and Villager rendering. Automatically generates 3~5 Iron Ingots and 0~1 Poppies every 10 seconds (200 ticks) directly into internal 4-slot storage without spawning heavy entity pathfinding AI. Output slots natively support hopper extraction from all sides and bottom.
+  - **Farmer (`easy_villagers:farmer`)**: 1x1 automated crop farming block. Accommodates 1 farmer villager with 3D miniature entity rendering over farmland. Features 1 seed input slot (top hopper input) accepting Wheat Seeds, Carrots, Potatoes, and Beetroot Seeds, and 4 crop output slots (bottom hopper extraction). Automatically simulates growth and harvest every 7 seconds (140 ticks) without requiring massive farmland plots.
 
 ## Architecture
 

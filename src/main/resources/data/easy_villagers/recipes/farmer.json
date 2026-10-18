@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "HTW",
+    " D "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bone_meal"
+    },
+    "H": {
+      "item": "minecraft:iron_hoe"
+    },
+    "T": {
+      "item": "easy_villagers:trader"
+    },
+    "W": {
+      "item": "minecraft:water_bucket"
+    },
+    "D": {
+      "item": "minecraft:dirt"
+    }
+  },
+  "result": {
+    "item": "easy_villagers:farmer",
+    "count": 1
+  }
+}

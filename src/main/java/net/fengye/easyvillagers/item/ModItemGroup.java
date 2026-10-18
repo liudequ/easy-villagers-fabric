@@ -20,6 +20,8 @@ public class ModItemGroup {
                 entries.method_45421(ModBlocks.BREEDER_ITEM);
                 entries.method_45421(ModBlocks.INCUBATOR_ITEM);
                 entries.method_45421(ModBlocks.CONVERTER_ITEM);
+                entries.method_45421(ModBlocks.IRON_FARM_ITEM);
+                entries.method_45421(ModBlocks.FARMER_ITEM);
             })
             .method_47324(); // build
 

@@ -5,7 +5,9 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.fengye.easyvillagers.block.entity.AutoTraderBlockEntity;
 import net.fengye.easyvillagers.block.entity.BreederBlockEntity;
 import net.fengye.easyvillagers.block.entity.ConverterBlockEntity;
+import net.fengye.easyvillagers.block.entity.FarmerBlockEntity;
 import net.fengye.easyvillagers.block.entity.IncubatorBlockEntity;
+import net.fengye.easyvillagers.block.entity.IronFarmBlockEntity;
 import net.fengye.easyvillagers.block.entity.TraderBlockEntity;
 import net.minecraft.class_1747;
 import net.minecraft.class_1792;
@@ -94,6 +96,36 @@ public class ModBlocks {
             CONVERTER_BLOCK
     ).build();
 
+    // 6. 单方块刷铁机方块与方块实体（阶段五）
+    public static final class_2248 IRON_FARM_BLOCK = new IronFarmBlock(
+            FabricBlockSettings.copyOf(class_2246.field_10562).nonOpaque()
+    );
+
+    public static final class_1792 IRON_FARM_ITEM = new class_1747(
+            IRON_FARM_BLOCK,
+            new class_1792.class_1793()
+    );
+
+    public static final class_2591<IronFarmBlockEntity> IRON_FARM_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(
+            IronFarmBlockEntity::new,
+            IRON_FARM_BLOCK
+    ).build();
+
+    // 7. 单方块自动农夫方块与方块实体（阶段五）
+    public static final class_2248 FARMER_BLOCK = new FarmerBlock(
+            FabricBlockSettings.copyOf(class_2246.field_10562).nonOpaque()
+    );
+
+    public static final class_1792 FARMER_ITEM = new class_1747(
+            FARMER_BLOCK,
+            new class_1792.class_1793()
+    );
+
+    public static final class_2591<FarmerBlockEntity> FARMER_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(
+            FarmerBlockEntity::new,
+            FARMER_BLOCK
+    ).build();
+
     public static void register() {
         // 注册普通交易展柜
         class_2378.method_10230(class_7923.field_41175, new class_2960(MOD_ID, "trader"), TRADER_BLOCK);
@@ -119,5 +151,15 @@ public class ModBlocks {
         class_2378.method_10230(class_7923.field_41175, new class_2960(MOD_ID, "converter"), CONVERTER_BLOCK);
         class_2378.method_10230(class_7923.field_41178, new class_2960(MOD_ID, "converter"), CONVERTER_ITEM);
         class_2378.method_10230(class_7923.field_41181, new class_2960(MOD_ID, "converter"), CONVERTER_BLOCK_ENTITY);
+
+        // 注册单方块刷铁机
+        class_2378.method_10230(class_7923.field_41175, new class_2960(MOD_ID, "iron_farm"), IRON_FARM_BLOCK);
+        class_2378.method_10230(class_7923.field_41178, new class_2960(MOD_ID, "iron_farm"), IRON_FARM_ITEM);
+        class_2378.method_10230(class_7923.field_41181, new class_2960(MOD_ID, "iron_farm"), IRON_FARM_BLOCK_ENTITY);
+
+        // 注册单方块自动农夫
+        class_2378.method_10230(class_7923.field_41175, new class_2960(MOD_ID, "farmer"), FARMER_BLOCK);
+        class_2378.method_10230(class_7923.field_41178, new class_2960(MOD_ID, "farmer"), FARMER_ITEM);
+        class_2378.method_10230(class_7923.field_41181, new class_2960(MOD_ID, "farmer"), FARMER_BLOCK_ENTITY);
     }
 }
