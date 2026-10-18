@@ -193,6 +193,10 @@ public class VillagerItem extends class_1792 {
                 if (!level.isEmpty()) {
                     tooltip.add(class_2561.method_43470("§a等级: §f" + level));
                 }
+
+                if (nbt.method_10545("DiscountTitle")) {
+                    tooltip.add(class_2561.method_43470(nbt.method_10558("DiscountTitle")));
+                }
             }
         } else {
             tooltip.add(class_2561.method_43470("§7空村民（未捕获具体数据）"));

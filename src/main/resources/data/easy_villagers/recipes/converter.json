@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "ITI",
+    " O "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brewing_stand"
+    },
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "T": {
+      "item": "easy_villagers:trader"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "easy_villagers:converter",
+    "count": 1
+  }
+}

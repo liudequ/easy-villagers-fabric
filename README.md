@@ -19,7 +19,11 @@ A Fabric 1.20.1 port and evolution of the popular [Easy Villagers](https://githu
   - **Breeder (`easy_villagers:breeder`)**: Compact single-block villager breeding station. Accommodates 2 adult villagers with 3D miniature face-to-face rendering. Includes 4 food input slots (top/sides) supporting bread, carrots, potatoes, and beetroots. Automatically breeds every 20 seconds consuming food points and outputs Baby Villager items to the output slot (hopper extractable from bottom).
   - **Incubator (`easy_villagers:incubator`)**: Single-block rapid baby villager maturation chamber. Displays miniature baby villager inside with glowing warm hay base. Automatically accelerates maturation from 20 minutes down to 30 seconds, turning baby villager items into adult unemployed villagers extractable via hopper from bottom.
   - **Baby Villager Item**: Extended `VillagerItem` with custom `IsBaby` NBT tag, distinct tooltip ("👶 幼年村民"), and safe world spawning.
-- [ ] **Converter (Phase 4.5)**: Automated villager curing for permanent emerald trade discounts.
+- [x] **Converter (Phase 4.5)**:
+  - **Converter (`easy_villagers:converter`)**: Automated 1x1 villager infection and curing chamber with crying obsidian base.
+  - SidedInventory automation: 2 input slots (top/sides) accepting Golden Apples and Weakness Potions, and 1 output slot (bottom) for hopper extraction.
+  - Full automated state machine: Normal villager -> 3-second zombie infection -> 15-second high-frequency curing vibration with 3D miniature zombie model -> cured villager with permanent 1-emerald discount injected into all trade recipes.
+  - Automatic Golden Apple and Potion consumption upon curing initiation.
 - [ ] **Iron Farm & Farmer (Phase 5)**: Compact, lag-free single-block iron farming and crop harvesting.
 
 ## Architecture

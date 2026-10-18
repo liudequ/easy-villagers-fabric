@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fengye.easyvillagers.block.entity.AutoTraderBlockEntity;
 import net.fengye.easyvillagers.block.entity.BreederBlockEntity;
+import net.fengye.easyvillagers.block.entity.ConverterBlockEntity;
 import net.fengye.easyvillagers.block.entity.IncubatorBlockEntity;
 import net.fengye.easyvillagers.block.entity.TraderBlockEntity;
 import net.minecraft.class_1747;
@@ -78,6 +79,21 @@ public class ModBlocks {
             INCUBATOR_BLOCK
     ).build();
 
+    // 5. 村民转化治愈机方块与方块实体（阶段四点五）
+    public static final class_2248 CONVERTER_BLOCK = new ConverterBlock(
+            FabricBlockSettings.copyOf(class_2246.field_10562).nonOpaque()
+    );
+
+    public static final class_1792 CONVERTER_ITEM = new class_1747(
+            CONVERTER_BLOCK,
+            new class_1792.class_1793()
+    );
+
+    public static final class_2591<ConverterBlockEntity> CONVERTER_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(
+            ConverterBlockEntity::new,
+            CONVERTER_BLOCK
+    ).build();
+
     public static void register() {
         // 注册普通交易展柜
         class_2378.method_10230(class_7923.field_41175, new class_2960(MOD_ID, "trader"), TRADER_BLOCK);
@@ -98,5 +114,10 @@ public class ModBlocks {
         class_2378.method_10230(class_7923.field_41175, new class_2960(MOD_ID, "incubator"), INCUBATOR_BLOCK);
         class_2378.method_10230(class_7923.field_41178, new class_2960(MOD_ID, "incubator"), INCUBATOR_ITEM);
         class_2378.method_10230(class_7923.field_41181, new class_2960(MOD_ID, "incubator"), INCUBATOR_BLOCK_ENTITY);
+
+        // 注册村民转化机
+        class_2378.method_10230(class_7923.field_41175, new class_2960(MOD_ID, "converter"), CONVERTER_BLOCK);
+        class_2378.method_10230(class_7923.field_41178, new class_2960(MOD_ID, "converter"), CONVERTER_ITEM);
+        class_2378.method_10230(class_7923.field_41181, new class_2960(MOD_ID, "converter"), CONVERTER_BLOCK_ENTITY);
     }
 }
