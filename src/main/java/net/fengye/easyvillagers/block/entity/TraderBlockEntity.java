@@ -17,6 +17,9 @@ import net.minecraft.class_2596;
 import net.minecraft.class_2602;
 import net.minecraft.class_2622;
 import net.minecraft.class_2680;
+import net.minecraft.class_2960;
+import net.minecraft.class_3850;
+import net.minecraft.class_7923;
 
 public class TraderBlockEntity extends class_2586 {
     public static final String VILLAGER_DATA_KEY = "StoredVillager";
@@ -102,19 +105,49 @@ public class TraderBlockEntity extends class_2586 {
         if (hasWorkstation()) {
             class_1646 villager = getOrCreateCachedVillager();
             if (villager != null && VillagerWorkstationHelper.canCycleTrade(villager)) {
-                String profId = VillagerWorkstationHelper.getProfessionId(this.workstation);
-                if (profId != null) {
-                    VillagerWorkstationHelper.applyProfession(villager, profId);
-                    syncVillagerNbtFromEntity(villager, profId);
+                String targetProfId = VillagerWorkstationHelper.getProfessionId(this.workstation);
+                if (targetProfId != null) {
+                    class_3850 curData = villager.method_7231();
+                    class_2960 curProfId = class_7923.field_41195.method_10221(curData.method_16924());
+                    String curProfKey = curProfId != null ? curProfId.method_12832() : "none";
+
+                    // 关键保护：如果该村民已经拥有匹配的职业且已有交易条目，绝对不予重置！保留已有完美词条！
+                    boolean hasExistingOffers = !villager.method_8264().isEmpty();
+                    boolean isSameProfession = targetProfId.equals(curProfKey);
+
+                    if (!isSameProfession || !hasExistingOffers) {
+                        VillagerWorkstationHelper.applyProfession(villager, targetProfId);
+                        syncVillagerNbtFromEntity(villager, targetProfId);
+                    }
                 }
             }
         }
         markUpdated();
     }
 
+    public void updateVillagerTagFromCached() {
+        if (this.cachedVillager == null) return;
+        if (this.villagerTag == null) {
+            this.villagerTag = new class_2487();
+        }
+        class_2487 entityTag = new class_2487();
+        this.cachedVillager.method_5647(entityTag); // 完整保存 NBT (包含 Xp, Offers, Level 等)
+        this.villagerTag.method_10566(VillagerItem.ENTITY_TAG, entityTag);
+
+        class_3850 villagerData = this.cachedVillager.method_7231();
+        class_2960 profId = class_7923.field_41195.method_10221(villagerData.method_16924());
+        String profKey = profId != null ? profId.method_12832() : "none";
+        this.villagerTag.method_10582(VillagerItem.PROFESSION_KEY, VillagerItem.getProfessionName(profKey));
+        this.villagerTag.method_10582(VillagerItem.LEVEL_KEY, VillagerItem.getLevelName(villagerData.method_16925()));
+    }
+
     public class_1799 extractVillagerItem() {
         if (!hasVillager()) {
             return class_1799.field_8037;
+        }
+        // 关键回写：提取打包前，先将实体最新经验值、等级、已完成的交易等全部写回 NBT
+        if (this.cachedVillager != null) {
+            updateVillagerTagFromCached();
         }
         class_1799 stack = new class_1799(ModItems.VILLAGER_ITEM);
         stack.method_7980(this.villagerTag.method_10553());
@@ -199,6 +232,9 @@ public class TraderBlockEntity extends class_2586 {
     @Override
     protected void method_11007(class_2487 nbt) { // writeNbt
         super.method_11007(nbt);
+        if (this.cachedVillager != null) {
+            updateVillagerTagFromCached();
+        }
         if (this.villagerTag != null) {
             nbt.method_10566(VILLAGER_DATA_KEY, this.villagerTag);
         }

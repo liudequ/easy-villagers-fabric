@@ -2,6 +2,7 @@ package net.fengye.easyvillagers.block.entity;
 
 import net.fengye.easyvillagers.block.ModBlocks;
 import net.fengye.easyvillagers.item.ModItems;
+import net.fengye.easyvillagers.item.VillagerItem;
 import net.minecraft.class_1262;
 import net.minecraft.class_1263;
 import net.minecraft.class_1278;
@@ -59,6 +60,11 @@ public class IronFarmBlockEntity extends class_2586 implements class_1278 {
 
     public class_1799 extractVillager() {
         if (!hasVillager()) return class_1799.field_8037;
+        if (this.cachedVillager != null && this.villagerTag != null) {
+            class_2487 entityTag = new class_2487();
+            this.cachedVillager.method_5647(entityTag);
+            this.villagerTag.method_10566(VillagerItem.ENTITY_TAG, entityTag);
+        }
         class_1799 stack = new class_1799(ModItems.VILLAGER_ITEM);
         if (this.villagerTag != null) {
             stack.method_7980(this.villagerTag.method_10553());

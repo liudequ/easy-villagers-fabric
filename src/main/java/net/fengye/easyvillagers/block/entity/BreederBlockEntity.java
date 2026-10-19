@@ -85,6 +85,11 @@ public class BreederBlockEntity extends class_2586 implements class_1278 {
 
     public class_1799 extractVillager() {
         if (hasVillager2()) {
+            if (this.cachedVillager2 != null && this.villagerTag2 != null) {
+                class_2487 entityTag = new class_2487();
+                this.cachedVillager2.method_5647(entityTag);
+                this.villagerTag2.method_10566(VillagerItem.ENTITY_TAG, entityTag);
+            }
             class_1799 stack = new class_1799(ModItems.VILLAGER_ITEM);
             stack.method_7980(this.villagerTag2.method_10553());
             this.villagerTag2 = null;
@@ -92,6 +97,11 @@ public class BreederBlockEntity extends class_2586 implements class_1278 {
             markUpdated();
             return stack;
         } else if (hasVillager1()) {
+            if (this.cachedVillager1 != null && this.villagerTag1 != null) {
+                class_2487 entityTag = new class_2487();
+                this.cachedVillager1.method_5647(entityTag);
+                this.villagerTag1.method_10566(VillagerItem.ENTITY_TAG, entityTag);
+            }
             class_1799 stack = new class_1799(ModItems.VILLAGER_ITEM);
             stack.method_7980(this.villagerTag1.method_10553());
             this.villagerTag1 = null;
