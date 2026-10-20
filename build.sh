@@ -82,7 +82,7 @@ else
     CLIENT_INTERMEDIARY="$CACHE_DIR/client-intermediary.jar"
     if [ ! -f "$CLIENT_INTERMEDIARY" ]; then
         echo "Generating client-intermediary.jar from vanilla client and Fabric mappings..."
-        download_if_missing "$CACHE_DIR/client.jar" "https://piston-data.mojang.com/v1/objects/84fe48e5c898d25d1976a9163274219468965825/client.jar"
+        download_if_missing "$CACHE_DIR/client.jar" "https://piston-data.mojang.com/v1/objects/0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838/client.jar"
         download_if_missing "$CACHE_DIR/mappings.tiny" "https://raw.githubusercontent.com/FabricMC/intermediary/master/mappings/1.20.1.tiny"
         
         # Loader 内置 TinyRemapper，但未内置其 ASM 运行库；全新 CI 缓存必须显式补齐。
