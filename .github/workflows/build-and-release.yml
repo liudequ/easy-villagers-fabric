@@ -29,9 +29,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache
-          key: mc-deps-${{ runner.os }}-1.20.1-v1
+          key: mc-deps-${{ runner.os }}-1.20.1-asm9-v2
           restore-keys: |
-            mc-deps-${{ runner.os }}-1.20.1-
+            mc-deps-${{ runner.os }}-1.20.1-asm9-
 
       - name: Make scripts executable
         run: |

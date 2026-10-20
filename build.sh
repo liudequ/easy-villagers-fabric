@@ -62,7 +62,7 @@ else
     }
 
     download_if_missing "$CACHE_DIR/fabric-loader-0.16.14.jar" "https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.16.14/fabric-loader-0.16.14.jar"
-    download_if_missing "$CACHE_DIR/fabric-api-0.92.12+1.20.1.jar" "https://cdn.modrinth.com/data/P7dR8mSH/versions/8ZpYmE1B/fabric-api-0.92.12%2B1.20.1.jar"
+    download_if_missing "$CACHE_DIR/fabric-api-0.92.12+1.20.1.jar" "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.92.12+1.20.1/fabric-api-0.92.12+1.20.1.jar"
     download_if_missing "$CACHE_DIR/joml-1.10.5.jar" "https://repo1.maven.org/maven2/org/joml/joml/1.10.5/joml-1.10.5.jar"
     download_if_missing "$CACHE_DIR/brigadier-1.1.8.jar" "https://libraries.minecraft.net/com/mojang/brigadier/1.1.8/brigadier-1.1.8.jar"
     download_if_missing "$CACHE_DIR/datafixerupper-6.0.8.jar" "https://libraries.minecraft.net/com/mojang/datafixerupper/6.0.8/datafixerupper-6.0.8.jar"
@@ -75,7 +75,7 @@ else
     if [ ! -d "$FAPI_JARS_DIR" ] || [ -z "$(ls -A "$FAPI_JARS_DIR" 2>/dev/null)" ]; then
         echo "Extracting Fabric API modules..."
         mkdir -p "$FAPI_JARS_DIR"
-        unzip -q -j "$CACHE_DIR/fabric-api-0.92.12+1.20.1.jar" "META-INF/jars/*.jar" -d "$FAPI_JARS_DIR" || true
+        unzip -q -j "$CACHE_DIR/fabric-api-0.92.12+1.20.1.jar" "META-INF/jars/*.jar" -d "$FAPI_JARS_DIR"
     fi
 
     # 准备 client-intermediary.jar
