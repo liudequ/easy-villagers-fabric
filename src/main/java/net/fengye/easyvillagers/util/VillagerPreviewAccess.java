@@ -10,4 +10,6 @@ public interface VillagerPreviewAccess {
     void easyVillagers$fillRecipes();
     void easyVillagers$updatePrices(class_1657 player);
     void easyVillagers$levelUp();
+    boolean easyVillagers$isCured();
+    void easyVillagers$setCured(boolean cured);
 }

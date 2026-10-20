@@ -4,6 +4,7 @@ import net.fengye.easyvillagers.block.ModBlocks;
 import net.fengye.easyvillagers.item.VillagerItem;
 import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
 import net.fengye.easyvillagers.util.VillagerTradePreviewHelper;
+import net.fengye.easyvillagers.util.VillagerPreviewAccess;
 import net.minecraft.class_1262;
 import net.minecraft.class_1263;
 import net.minecraft.class_1278;
@@ -74,7 +75,7 @@ public class AutoTraderBlockEntity extends TraderBlockEntity implements class_12
         markUpdated();
 
         class_1914 offer = trades.get(this.selectedTradeIndex);
-        class_1799 buy1 = offer.method_8246();
+        class_1799 buy1 = offer.method_19272(); // getAdjustedFirstBuyItem() 采用打折后的实际价格
         class_1799 buy2 = offer.method_8247();
         class_1799 sell = offer.method_8250();
 
@@ -114,6 +115,9 @@ public class AutoTraderBlockEntity extends TraderBlockEntity implements class_12
             class_1646 villager = entity.getOrCreateCachedVillager();
             if (villager != null) {
                 VillagerWorkstationHelper.restock(villager);
+                if (villager instanceof VillagerPreviewAccess access && access.easyVillagers$isCured()) {
+                    VillagerTradePreviewHelper.applyCureDiscounts(villager);
+                }
                 entity.lastRestockTime = currentTime;
                 String profId = VillagerWorkstationHelper.getProfessionId(entity.workstation);
                 if (profId != null) {
@@ -152,7 +156,7 @@ public class AutoTraderBlockEntity extends TraderBlockEntity implements class_12
             return false;
         }
 
-        class_1799 buy1 = offer.method_8246();
+        class_1799 buy1 = offer.method_19272(); // getAdjustedFirstBuyItem() 扣除打折后的实际原料
         class_1799 buy2 = offer.method_8247();
         class_1799 sell = offer.method_8250();
 

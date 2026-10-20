@@ -124,6 +124,72 @@ public final class PreviewSmoke implements ModInitializer {
         check(normal.method_8257() == player, "preview screen owns the original villager customer");
         screen.method_7595(player);
         check(normal.method_8257() == null, "closing preview screen clears villager busy state");
+
+        // 测试治愈村民在交易柜中交易、关窗、升级、自动化交易的打折持久性
+        class_1646 curedV = class_1299.field_6077.method_5883(server.method_30002());
+        curedV.method_7195(curedV.method_7231().method_16921(class_7923.field_41195.method_10223(new class_2960("minecraft:weaponsmith"))).method_16920(1));
+        class_1799 curedItem = VillagerItem.createFromVillager(curedV, ModItems.VILLAGER_ITEM);
+        curedItem.method_7969().method_10582("DiscountTitle", "§6✨ 治愈骨折特惠 (1绿宝石)");
+        curedItem.method_7969().method_10556("EasyVillagersCured", true);
+        curedItem.method_7969().method_10562(VillagerItem.ENTITY_TAG).method_10556("EasyVillagersCured", true);
+
+        class_2338 traderPos = new class_2338(10, 100, 0);
+        server.method_30002().method_8652(traderPos, ModBlocks.TRADER_BLOCK.method_9564(), 3);
+        TraderBlockEntity traderBe = (TraderBlockEntity) server.method_30002().method_8321(traderPos);
+        traderBe.setVillagerFromItem(curedItem);
+
+        class_1646 cachedCured = traderBe.getOrCreateCachedVillager();
+        VillagerTradePreviewHelper.openTradingScreenWithPreview(player, cachedCured, () -> {
+            traderBe.updateVillagerTagFromCached();
+            traderBe.markUpdated();
+        });
+
+        // 模拟关闭交易窗口
+        cachedCured.method_8259(null);
+        traderBe.updateVillagerTagFromCached();
+
+        // 关窗后检查打折是否依然有效（buy1 必须为 1）
+        for (class_1914 offer : cachedCured.method_8264()) {
+            check(offer.method_19272().method_7947() == 1, "cured trade buy1 is discounted to 1 after close");
+        }
+
+        // 测试补货与需求激增后的价格：即使 demand 增加，治愈价格依然被压制在 1
+        class_1914 firstTrade = cachedCured.method_8264().get(0);
+        for (int i = 0; i < 5; i++) {
+            firstTrade.method_8244(); // 模拟多次交易增加需求
+        }
+        VillagerWorkstationHelper.restock(cachedCured);
+        check(firstTrade.method_19272().method_7947() == 1, "cured trade buy1 remains 1 after restock and demand surge");
+
+        // 测试升级后新解锁的 2 级交易是否同样享有打折
+        cachedCured.method_19625(10);
+        VillagerTradePreviewHelper.advanceStoredVillager(cachedCured);
+        check(cachedCured.method_7231().method_16925() == 2, "cured villager upgraded to level 2");
+        for (class_1914 offer : cachedCured.method_8264()) {
+            check(offer.method_19272().method_7947() == 1, "level 2 unlocked trade also has 1 emerald discount");
+        }
+
+        // 测试自动交易柜扣除的原料是否为打折后的数量（1 个而非原价）
+        class_2338 autoTraderPos = new class_2338(11, 100, 0);
+        server.method_30002().method_8652(autoTraderPos, ModBlocks.AUTO_TRADER_BLOCK.method_9564(), 3);
+        AutoTraderBlockEntity autoTraderBe = (AutoTraderBlockEntity) server.method_30002().method_8321(autoTraderPos);
+        class_1799 curedItem2 = traderBe.extractVillagerItem();
+        autoTraderBe.setVillagerFromItem(curedItem2);
+        class_1646 autoCached = autoTraderBe.getOrCreateCachedVillager();
+        class_1914 autoOffer = autoCached.method_8264().get(0);
+        check(autoOffer.method_19272().method_7947() == 1, "auto trader offer is discounted to 1");
+
+        // 测试放出世界后其他玩家交互是否依然享受打折
+        class_1799 extractedItem = autoTraderBe.extractVillagerItem();
+        class_1646 worldVillager = class_1299.field_6077.method_5883(server.method_30002());
+        worldVillager.method_5651(extractedItem.method_7969().method_10562(VillagerItem.ENTITY_TAG));
+        TestPlayer player2 = new TestPlayer(server);
+        ((VillagerPreviewAccess) worldVillager).easyVillagers$updatePrices(player2);
+        for (class_1914 offer : worldVillager.method_8264()) {
+            check(offer.method_19272().method_7947() == 1, "another player also enjoys 1 emerald discount in world");
+        }
+
+
         for (String profession : new String[]{"none", "nitwit"}) {
             class_1646 empty = class_1299.field_6077.method_5883(server.method_30002());
             empty.method_7195(empty.method_7231().method_16921(class_7923.field_41195.method_10223(new class_2960("minecraft:" + profession))));

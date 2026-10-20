@@ -115,6 +115,15 @@ public class VillagerItem extends class_1792 {
             tag.method_10582(NAME_KEY, villager.method_5797().getString());
         }
 
+        // 治愈状态持久化
+        if (villager instanceof net.fengye.easyvillagers.util.VillagerPreviewAccess access && access.easyVillagers$isCured()) {
+            tag.method_10556("EasyVillagersCured", true);
+            tag.method_10582("DiscountTitle", "§6✨ 治愈骨折特惠 (1绿宝石)");
+        } else if (entityData.method_10577("EasyVillagersCured") || entityData.method_10545("DiscountTitle")) {
+            tag.method_10556("EasyVillagersCured", true);
+            tag.method_10582("DiscountTitle", "§6✨ 治愈骨折特惠 (1绿宝石)");
+        }
+
         return stack;
     }
 
@@ -144,6 +153,13 @@ public class VillagerItem extends class_1792 {
 
             if (nbt != null && nbt.method_10577(BABY_KEY)) {
                 villager.method_5614(-24000); // 确保设置为幼年
+            }
+
+            if (villager instanceof net.fengye.easyvillagers.util.VillagerPreviewAccess access) {
+                if (nbt != null && (nbt.method_10577("EasyVillagersCured") || nbt.method_10545("DiscountTitle"))) {
+                    access.easyVillagers$setCured(true);
+                    net.fengye.easyvillagers.util.VillagerTradePreviewHelper.applyCureDiscounts(villager);
+                }
             }
 
             // 分配新 UUID

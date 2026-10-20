@@ -5,6 +5,7 @@ import net.fengye.easyvillagers.item.ModItems;
 import net.fengye.easyvillagers.item.VillagerItem;
 import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
 import net.fengye.easyvillagers.util.VillagerTradePreviewHelper;
+import net.fengye.easyvillagers.util.VillagerPreviewAccess;
 import net.minecraft.class_1299;
 import net.minecraft.class_1646;
 import net.minecraft.class_1799;
@@ -126,10 +127,25 @@ public class TraderBlockEntity extends class_2586 {
         markUpdated();
     }
 
+    public static boolean isCuredVillagerTag(class_2487 tag) {
+        if (tag == null) return false;
+        if (tag.method_10577("EasyVillagersCured") || tag.method_10545("DiscountTitle")) return true;
+        if (tag.method_10545(VillagerItem.ENTITY_TAG)) {
+            class_2487 entity = tag.method_10562(VillagerItem.ENTITY_TAG);
+            return entity.method_10577("EasyVillagersCured") || entity.method_10545("DiscountTitle");
+        }
+        return false;
+    }
+
     public void updateVillagerTagFromCached() {
         if (this.cachedVillager == null) return;
         if (this.villagerTag == null) {
             this.villagerTag = new class_2487();
+        }
+        if (this.cachedVillager instanceof VillagerPreviewAccess access && access.easyVillagers$isCured()) {
+            this.villagerTag.method_10556("EasyVillagersCured", true);
+            this.villagerTag.method_10582("DiscountTitle", "§6✨ 治愈骨折特惠 (1绿宝石)");
+            VillagerTradePreviewHelper.applyCureDiscounts(this.cachedVillager);
         }
         class_2487 entityTag = new class_2487();
         this.cachedVillager.method_5647(entityTag); // 完整保存 NBT (包含 Xp, Offers, Level 等)
@@ -160,11 +176,16 @@ public class TraderBlockEntity extends class_2586 {
 
     protected void syncVillagerNbtFromEntity(class_1646 villager, String profId) {
         if (villager == null || this.villagerTag == null) return;
+        if (villager instanceof VillagerPreviewAccess access && access.easyVillagers$isCured()) {
+            this.villagerTag.method_10556("EasyVillagersCured", true);
+            this.villagerTag.method_10582("DiscountTitle", "§6✨ 治愈骨折特惠 (1绿宝石)");
+            VillagerTradePreviewHelper.applyCureDiscounts(villager);
+        }
         class_2487 entityTag = new class_2487();
         villager.method_5647(entityTag);
         this.villagerTag.method_10566(VillagerItem.ENTITY_TAG, entityTag);
         this.villagerTag.method_10582(VillagerItem.PROFESSION_KEY, VillagerItem.getProfessionName(profId));
-        this.villagerTag.method_10582(VillagerItem.LEVEL_KEY, VillagerItem.getLevelName(1));
+        this.villagerTag.method_10582(VillagerItem.LEVEL_KEY, VillagerItem.getLevelName(villager.method_7231().method_16925()));
     }
 
     public class_1916 getVillagerTrades() {
@@ -185,6 +206,10 @@ public class TraderBlockEntity extends class_2586 {
                 }
                 this.cachedVillager.method_5814(this.field_11867.method_10263() + 0.5,
                         this.field_11867.method_10264() + 0.5, this.field_11867.method_10260() + 0.5);
+                if (isCuredVillagerTag(this.villagerTag) && this.cachedVillager instanceof VillagerPreviewAccess access) {
+                    access.easyVillagers$setCured(true);
+                    VillagerTradePreviewHelper.applyCureDiscounts(this.cachedVillager);
+                }
             }
         }
         return this.cachedVillager;
@@ -204,6 +229,9 @@ public class TraderBlockEntity extends class_2586 {
             class_1646 villager = be.getOrCreateCachedVillager();
             if (villager != null) {
                 VillagerWorkstationHelper.restock(villager);
+                if (villager instanceof VillagerPreviewAccess access && access.easyVillagers$isCured()) {
+                    VillagerTradePreviewHelper.applyCureDiscounts(villager);
+                }
                 class_2487 entityTag = new class_2487();
                 villager.method_5647(entityTag);
                 be.villagerTag.method_10566(VillagerItem.ENTITY_TAG, entityTag);

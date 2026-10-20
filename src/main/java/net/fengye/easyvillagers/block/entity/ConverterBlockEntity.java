@@ -238,6 +238,14 @@ public class ConverterBlockEntity extends class_2586 implements class_1278 {
 
         // 标记已治愈特惠
         this.villagerTag.method_10582("DiscountTitle", "§6✨ 治愈骨折特惠 (1绿宝石)");
+        this.villagerTag.method_10556("EasyVillagersCured", true);
+        entityData.method_10582("DiscountTitle", "§6✨ 治愈骨折特惠 (1绿宝石)");
+        entityData.method_10556("EasyVillagersCured", true);
+
+        if (this.cachedVillager instanceof net.fengye.easyvillagers.util.VillagerPreviewAccess access) {
+            access.easyVillagers$setCured(true);
+            net.fengye.easyvillagers.util.VillagerTradePreviewHelper.applyCureDiscounts(this.cachedVillager);
+        }
 
         // 深入 Offers 列表为每一个已有交易植入 specialPrice 减免
         if (entityData.method_10545("Offers")) {

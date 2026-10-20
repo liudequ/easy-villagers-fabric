@@ -20,6 +20,27 @@ public final class VillagerTradePreviewHelper {
 
     private VillagerTradePreviewHelper() {}
 
+    public static void applyCureDiscounts(class_1646 villager) {
+        if (villager == null) return;
+        class_1916 offers = villager.method_8264();
+        if (offers == null) return;
+        for (class_1914 offer : offers) {
+            applyCureDiscount(offer);
+        }
+    }
+
+    public static void applyCureDiscount(class_1914 offer) {
+        if (offer == null) return;
+        class_1799 baseBuy = offer.method_8246();
+        if (baseBuy.method_7960()) return;
+        int baseCount = baseBuy.method_7947();
+        int demand = offer.method_21725();
+        float multiplier = offer.method_19278();
+        int demandBonus = Math.max(0, net.minecraft.class_3532.method_15375((float) (baseCount * demand) * multiplier));
+        int targetSpecialPrice = -(baseCount + demandBonus - 1);
+        offer.method_19273(targetSpecialPrice);
+    }
+
     public static void clearCache(class_1646 villager) {
         if (villager instanceof VillagerPreviewAccess access) {
             access.easyVillagers$setPreviewData(new class_2487());
@@ -65,13 +86,20 @@ public final class VillagerTradePreviewHelper {
     }
 
     public static class_1916 buildPreviewOffers(class_1646 villager) {
+        if (villager instanceof VillagerPreviewAccess access && access.easyVillagers$isCured()) {
+            applyCureDiscounts(villager);
+        }
         class_1916 display = new class_1916();
         // 真交易保留同一对象引用，交易次数、折扣和经验仍由原版管理。
         display.addAll(villager.method_8264());
         class_2487 future = getOrGenerateFutureOffers(villager);
+        boolean isCured = villager instanceof VillagerPreviewAccess access && access.easyVillagers$isCured();
         for (int level = villager.method_7231().method_16925() + 1; level <= 5; level++) {
             if (!future.method_10573("Level" + level, 10)) continue;
             for (class_1914 offer : new class_1916(future.method_10562("Level" + level))) {
+                if (isCured) {
+                    applyCureDiscount(offer);
+                }
                 display.add(wrapLockedOffer(offer, level));
             }
         }
@@ -120,6 +148,9 @@ public final class VillagerTradePreviewHelper {
         int level = villager.method_7231().method_16925();
         if (!class_3850.method_19196(level) || villager.method_19269() < class_3850.method_19195(level)) return false;
         ((VillagerPreviewAccess) villager).easyVillagers$levelUp();
+        if (villager instanceof VillagerPreviewAccess access && access.easyVillagers$isCured()) {
+            applyCureDiscounts(villager);
+        }
         return true;
     }
 }
