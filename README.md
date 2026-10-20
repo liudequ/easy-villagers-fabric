@@ -95,6 +95,14 @@ cd easy-villagers-fabric
 ```
 编译产物：`build/libs/easy-villagers-fabric-1.0.4.jar`，文件名自动使用 `fabric.mod.json` 中的版本号。
 
+如需在本地复现 CI 独立构建（不使用固定路径的开发缓存）：
+
+```bash
+EV_STANDALONE=1 EV_CACHE_DIR=/tmp/easy-villagers-deps ./build.sh
+```
+
+独立构建会显式准备 TinyRemapper 所需的 ASM 9.8 模块；下载失败不会把错误响应保存为正式依赖。
+
 ### 运行时回归验证
 
 准备已初始化的 Fabric 1.20.1 服务端依赖和编译缓存，然后运行：

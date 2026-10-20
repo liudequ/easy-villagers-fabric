@@ -23,7 +23,7 @@ fi
 
 echo "Using Java compiler: $($JAVAC -version 2>&1)"
 
-CACHE_DIR="$DIR/.cache"
+CACHE_DIR="${EV_CACHE_DIR:-$DIR/.cache}"
 mkdir -p "$CACHE_DIR"
 
 # 2. 检查并准备依赖
@@ -37,7 +37,7 @@ GSON_JAR=""
 MIXIN_JAR=""
 
 # 优先检查本地fengye专属开发环境缓存
-if [ -f "/home/fengye/mc-mod-dev/cache/client-intermediary.jar" ] && [ -d "/home/fengye/mc-adventure/libraries" ]; then
+if [ "${EV_STANDALONE:-0}" != "1" ] && [ -f "/home/fengye/mc-mod-dev/cache/client-intermediary.jar" ] && [ -d "/home/fengye/mc-adventure/libraries" ]; then
     echo "Detected local development environment. Using local cached libraries..."
     CLIENT_INTERMEDIARY="/home/fengye/mc-mod-dev/cache/client-intermediary.jar"
     LOADER_JAR="/home/fengye/mc-adventure/libraries/net/fabricmc/fabric-loader/0.16.14/fabric-loader-0.16.14.jar"
@@ -56,7 +56,8 @@ else
         local url="$2"
         if [ ! -f "$file" ]; then
             echo "Downloading $(basename "$file")..."
-            curl -sSL --retry 3 "$url" -o "$file"
+            curl --fail --silent --show-error --location --retry 3 --retry-all-errors --connect-timeout 20 --max-time 180 "$url" -o "$file.part"
+            mv "$file.part" "$file"
         fi
     }
 
@@ -84,10 +85,15 @@ else
         download_if_missing "$CACHE_DIR/client.jar" "https://piston-data.mojang.com/v1/objects/84fe48e5c898d25d1976a9163274219468965825/client.jar"
         download_if_missing "$CACHE_DIR/mappings.tiny" "https://raw.githubusercontent.com/FabricMC/intermediary/master/mappings/1.20.1.tiny"
         
-        # 编译并运行 RemapClient
+        # Loader 内置 TinyRemapper，但未内置其 ASM 运行库；全新 CI 缓存必须显式补齐。
+        REMAP_CP="$CACHE_DIR/fabric-loader-0.16.14.jar"
+        for module in asm asm-analysis asm-commons asm-tree asm-util; do
+            download_if_missing "$CACHE_DIR/$module-9.8.jar" "https://maven.fabricmc.net/org/ow2/asm/$module/9.8/$module-9.8.jar"
+            REMAP_CP="$REMAP_CP:$CACHE_DIR/$module-9.8.jar"
+        done
         mkdir -p "$CACHE_DIR/remap_classes"
-        "$JAVAC" -cp "$CACHE_DIR/fabric-loader-0.16.14.jar" -d "$CACHE_DIR/remap_classes" "$DIR/scripts/RemapClient.java"
-        "$JAVA" -cp "$CACHE_DIR/remap_classes:$CACHE_DIR/fabric-loader-0.16.14.jar" net.fengye.easyvillagers.build.RemapClient \
+        "$JAVAC" -cp "$REMAP_CP" -d "$CACHE_DIR/remap_classes" "$DIR/scripts/RemapClient.java"
+        "$JAVA" -Xmx1G -cp "$CACHE_DIR/remap_classes:$REMAP_CP" net.fengye.easyvillagers.build.RemapClient \
             "$CACHE_DIR/client.jar" "$CLIENT_INTERMEDIARY" "$CACHE_DIR/mappings.tiny"
     fi
 
