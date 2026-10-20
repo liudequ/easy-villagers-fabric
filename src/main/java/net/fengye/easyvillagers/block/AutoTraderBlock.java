@@ -2,6 +2,7 @@ package net.fengye.easyvillagers.block;
 
 import net.fengye.easyvillagers.block.entity.AutoTraderBlockEntity;
 import net.fengye.easyvillagers.item.ModItems;
+import net.fengye.easyvillagers.util.VillagerTradePreviewHelper;
 import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
 import net.minecraft.class_1264;
 import net.minecraft.class_1268;
@@ -132,12 +133,16 @@ public class AutoTraderBlock extends class_2237 {
             return class_1269.field_5812;
         }
 
-        // 5. 普通右键打开村民交易面板
+        // 5. 普通右键打开村民交易面板 (支持未来交易透视)
         if (autoTrader.hasVillager()) {
             class_1646 villager = autoTrader.getOrCreateCachedVillager();
             if (villager != null) {
-                villager.method_8259(player); // setCustomer
-                villager.method_17449(player, villager.method_5477(), villager.method_7231().method_16925()); // sendOffers
+                if (!world.field_9236) {
+                    VillagerTradePreviewHelper.openTradingScreenWithPreview(player, villager, () -> {
+                        autoTrader.updateVillagerTagFromCached();
+                        autoTrader.markUpdated();
+                    });
+                }
                 player.method_7353(class_2561.method_43470("§7[提示: 手持红石粉或木棍右键可切换自动交易锁定项]"), true);
                 return class_1269.field_5812;
             }

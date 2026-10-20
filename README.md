@@ -73,6 +73,14 @@
 2. 手持 **红石粉 / 木棍** 右键敲击展柜，切换并锁定需要自动执行的交易（如绿宝石换钻石甲）；
 3. 上方接漏斗注入材料，下方接漏斗抽取成品，无需人工介入即可 24 小时全自动产出！
 
+### 5. 未来交易预览（v1.0.4）
+- 右键世界中的成年职业村民、交易展柜或自动交易展柜，均可在原版交易面板查看后续等级的商品，包括附魔书的具体附魔。
+- 未解锁条目置灰并带有「需要 Lv.X」提示；即使提供足够材料，服务端也不允许提前兑换。
+- 首次查看后，未来交易会保存在村民 NBT 中；关闭界面、抓取搬运或读档不会重新随机，升级时兑现已预览的商品。
+- 移除工作台重置未锁定村民职业时，会同时清除预览缓存，下一次重新生成。
+- 普通交易照常累计次数和经验；展柜中的虚拟村民也会按原版经验阈值升级。
+- 此功能已内置，**不要同时安装 Visible Traders**。服务端与客户端均更新至本模组 v1.0.4；价格仍可能受到需求和玩家折扣影响。
+
 ---
 
 ## 🏗️ Building from Source / 源码编译
@@ -85,7 +93,21 @@ cd easy-villagers-fabric
 # Compile and package jar
 ./package.sh
 ```
-The compiled mod jar will be generated at `build/libs/easy-villagers-fabric-1.0.0.jar`.
+编译产物：`build/libs/easy-villagers-fabric-1.0.4.jar`，文件名自动使用 `fabric.mod.json` 中的版本号。
+
+### 运行时回归验证
+
+准备已初始化的 Fabric 1.20.1 服务端依赖和编译缓存，然后运行：
+
+```bash
+python3 tests/runtime/run.py \
+  --server-dir /path/to/fabric-server \
+  --cache-dir /path/to/mc-mod-dev/cache \
+  --java-home /path/to/jdk17
+```
+
+缓存目录需包含原版 `client.jar`、映射后的 `client-intermediary.jar` 和解压的 Fabric API 模块目录 `extracted_jars/`。
+测试会复制运行库并创建独立临时世界，不读取或修改正式存档。覆盖预览稳定性、锁定交易保护、原版实体交互、两种展柜升级与物品化持久化，以及客户端 Mixin 的实际变换和类校验；**不代替游戏内画面与手柄操作验收**。临时目录保留日志，可在检查后删除。
 
 ---
 

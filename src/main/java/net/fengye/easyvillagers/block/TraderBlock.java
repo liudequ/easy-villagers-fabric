@@ -2,6 +2,7 @@ package net.fengye.easyvillagers.block;
 
 import net.fengye.easyvillagers.block.entity.TraderBlockEntity;
 import net.fengye.easyvillagers.item.ModItems;
+import net.fengye.easyvillagers.util.VillagerTradePreviewHelper;
 import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
 import net.minecraft.class_1268;
 import net.minecraft.class_1269;
@@ -115,12 +116,16 @@ public class TraderBlock extends class_2237 {
             }
         }
 
-        // 4. 普通右键打开村民交易面板
+        // 4. 普通右键打开村民交易面板 (支持未来交易透视)
         if (trader.hasVillager()) {
             class_1646 villager = trader.getOrCreateCachedVillager();
             if (villager != null) {
-                villager.method_8259(player); // setCustomer
-                villager.method_17449(player, villager.method_5477(), villager.method_7231().method_16925()); // sendOffers
+                if (!world.field_9236) {
+                    VillagerTradePreviewHelper.openTradingScreenWithPreview(player, villager, () -> {
+                        trader.updateVillagerTagFromCached();
+                        trader.markUpdated();
+                    });
+                }
                 trader.markUpdated();
                 return class_1269.field_5812;
             }

@@ -106,6 +106,8 @@ public class VillagerWorkstationHelper {
 
         // 补货初始化
         villager.method_19182();
+        // 清理旧交易预测缓存
+        VillagerTradePreviewHelper.clearCache(villager);
         return true;
     }
 

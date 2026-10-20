@@ -91,11 +91,13 @@ jobs:
             - 🧪 **Converter (僵尸转化机)**: 全自动虚弱+金苹果治愈村民，赋予**全交易永久 1 绿宝石骨折特惠**。
             - ⚙️ **Iron Farm (单方块刷铁机)**: 容纳 1 只村民，每 10 秒稳定产出 3~5 铁锭与虞美人，彻底告别实体 AI 寻路卡顿。
             - 🌾 **Farmer (自动农夫方块)**: 容纳 1 只农民村民，周期性全自动收割并增殖各类农作物。
+            - 🔎 **未来交易预览**: 普通村民与两种交易展柜内置后续等级预览；未解锁条目置灰且服务端禁止兑换，升级兑现已预览商品。
 
             ---
 
             ### 📦 Installation / 安装说明
 
-            1. 下载下方 Assets 中的 `easy-villagers-fabric-1.0.0.jar`；
+            1. 下载下方 Assets 中与当前版本对应的 `easy-villagers-fabric-*.jar`；
             2. 将其放入你的 Minecraft `mods/` 文件夹；
-            3. 确保已安装 **Fabric Loader (0.15.0+)** 和 **Fabric API**。
+            3. 确保已安装 **Fabric Loader (0.15.0+)** 和 **Fabric API**；
+            4. 服务端与客户端均更新，移除旧版本及独立的 **Visible Traders** 模组。

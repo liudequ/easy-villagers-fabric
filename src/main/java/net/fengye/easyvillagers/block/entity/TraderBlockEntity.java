@@ -4,6 +4,7 @@ import net.fengye.easyvillagers.block.ModBlocks;
 import net.fengye.easyvillagers.item.ModItems;
 import net.fengye.easyvillagers.item.VillagerItem;
 import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
+import net.fengye.easyvillagers.util.VillagerTradePreviewHelper;
 import net.minecraft.class_1299;
 import net.minecraft.class_1646;
 import net.minecraft.class_1799;
@@ -178,8 +179,12 @@ public class TraderBlockEntity extends class_2586 {
         }
         if (this.cachedVillager == null) {
             this.cachedVillager = class_1299.field_6077.method_5883(this.field_11863);
-            if (this.cachedVillager != null && this.villagerTag.method_10545(VillagerItem.ENTITY_TAG)) {
-                this.cachedVillager.method_5651(this.villagerTag.method_10562(VillagerItem.ENTITY_TAG));
+            if (this.cachedVillager != null) {
+                if (this.villagerTag.method_10545(VillagerItem.ENTITY_TAG)) {
+                    this.cachedVillager.method_5651(this.villagerTag.method_10562(VillagerItem.ENTITY_TAG));
+                }
+                this.cachedVillager.method_5814(this.field_11867.method_10263() + 0.5,
+                        this.field_11867.method_10264() + 0.5, this.field_11867.method_10260() + 0.5);
             }
         }
         return this.cachedVillager;
@@ -187,7 +192,12 @@ public class TraderBlockEntity extends class_2586 {
 
     public static void tick(class_1937 world, class_2338 pos, class_2680 state, TraderBlockEntity be) {
         if (world == null || world.field_9236) return;
-        if (!be.hasVillager() || !be.hasWorkstation()) return;
+        if (!be.hasVillager()) return;
+        if (VillagerTradePreviewHelper.advanceStoredVillager(be.getOrCreateCachedVillager())) {
+            be.updateVillagerTagFromCached();
+            be.markUpdated();
+        }
+        if (!be.hasWorkstation() || (be.cachedVillager != null && be.cachedVillager.method_8257() != null)) return;
 
         long time = world.method_8510();
         if (time - be.lastRestockTime >= 2400) {

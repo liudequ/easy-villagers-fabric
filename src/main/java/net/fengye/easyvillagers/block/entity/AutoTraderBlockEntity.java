@@ -3,6 +3,7 @@ package net.fengye.easyvillagers.block.entity;
 import net.fengye.easyvillagers.block.ModBlocks;
 import net.fengye.easyvillagers.item.VillagerItem;
 import net.fengye.easyvillagers.util.VillagerWorkstationHelper;
+import net.fengye.easyvillagers.util.VillagerTradePreviewHelper;
 import net.minecraft.class_1262;
 import net.minecraft.class_1263;
 import net.minecraft.class_1278;
@@ -99,6 +100,13 @@ public class AutoTraderBlockEntity extends TraderBlockEntity implements class_12
         if (!entity.hasVillager()) {
             return;
         }
+
+        if (VillagerTradePreviewHelper.advanceStoredVillager(entity.getOrCreateCachedVillager())) {
+            entity.updateVillagerTagFromCached();
+            entity.markUpdated();
+        }
+        // 玩家手动交易期间暂停自动化，避免同一交易并发消耗或补货。
+        if (entity.getOrCreateCachedVillager() != null && entity.getOrCreateCachedVillager().method_8257() != null) return;
 
         // 1. 自动补货检查
         long currentTime = world.method_8510();

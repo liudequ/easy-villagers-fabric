@@ -33,6 +33,8 @@ FAPI_JARS_DIR=""
 JOML_JAR=""
 BRIGADIER_JAR=""
 DFU_JAR=""
+GSON_JAR=""
+MIXIN_JAR=""
 
 # 优先检查本地fengye专属开发环境缓存
 if [ -f "/home/fengye/mc-mod-dev/cache/client-intermediary.jar" ] && [ -d "/home/fengye/mc-adventure/libraries" ]; then
@@ -43,6 +45,8 @@ if [ -f "/home/fengye/mc-mod-dev/cache/client-intermediary.jar" ] && [ -d "/home
     JOML_JAR="/home/fengye/mc-adventure/libraries/org/joml/joml/1.10.5/joml-1.10.5.jar"
     BRIGADIER_JAR="/home/fengye/mc-adventure/libraries/com/mojang/brigadier/1.1.8/brigadier-1.1.8.jar"
     DFU_JAR="/home/fengye/mc-adventure/libraries/com/mojang/datafixerupper/6.0.8/datafixerupper-6.0.8.jar"
+    GSON_JAR="/home/fengye/mc-adventure/libraries/com/google/code/gson/gson/2.10/gson-2.10.jar"
+    MIXIN_JAR="/home/fengye/mc-mod-dev/cache/sponge-mixin-0.15.5+mixin.0.8.7.jar"
 else
     echo "Preparing standalone dependencies in $CACHE_DIR..."
     
@@ -62,6 +66,9 @@ else
     download_if_missing "$CACHE_DIR/brigadier-1.1.8.jar" "https://libraries.minecraft.net/com/mojang/brigadier/1.1.8/brigadier-1.1.8.jar"
     download_if_missing "$CACHE_DIR/datafixerupper-6.0.8.jar" "https://libraries.minecraft.net/com/mojang/datafixerupper/6.0.8/datafixerupper-6.0.8.jar"
     
+    download_if_missing "$CACHE_DIR/gson-2.10.jar" "https://libraries.minecraft.net/com/google/code/gson/gson/2.10/gson-2.10.jar"
+    download_if_missing "$CACHE_DIR/sponge-mixin-0.15.5+mixin.0.8.7.jar" "https://maven.fabricmc.net/net/fabricmc/sponge-mixin/0.15.5+mixin.0.8.7/sponge-mixin-0.15.5+mixin.0.8.7.jar"
+
     # 解压 Fabric API 内置模块
     FAPI_JARS_DIR="$CACHE_DIR/fapi_modules"
     if [ ! -d "$FAPI_JARS_DIR" ] || [ -z "$(ls -A "$FAPI_JARS_DIR" 2>/dev/null)" ]; then
@@ -88,10 +95,12 @@ else
     JOML_JAR="$CACHE_DIR/joml-1.10.5.jar"
     BRIGADIER_JAR="$CACHE_DIR/brigadier-1.1.8.jar"
     DFU_JAR="$CACHE_DIR/datafixerupper-6.0.8.jar"
+    GSON_JAR="$CACHE_DIR/gson-2.10.jar"
+    MIXIN_JAR="$CACHE_DIR/sponge-mixin-0.15.5+mixin.0.8.7.jar"
 fi
 
 # 3. 构建编译 Classpath
-CP="$CLIENT_INTERMEDIARY:$LOADER_JAR:$JOML_JAR:$BRIGADIER_JAR:$DFU_JAR"
+CP="$CLIENT_INTERMEDIARY:$LOADER_JAR:$JOML_JAR:$BRIGADIER_JAR:$DFU_JAR:$GSON_JAR:$MIXIN_JAR"
 for f in "$FAPI_JARS_DIR"/*.jar; do
     if [ -f "$f" ]; then
         CP="$CP:$f"
@@ -106,7 +115,7 @@ mkdir -p "$CLASSES_DIR"
 
 echo "Compiling Java sources..."
 SOURCES=$(find "$DIR/src/main/java" -name "*.java")
-"$JAVAC" -proc:none -encoding UTF-8 -cp "$CP" -d "$CLASSES_DIR" $SOURCES
+"$JAVAC" --release 17 -proc:none -encoding UTF-8 -cp "$CP" -d "$CLASSES_DIR" $SOURCES
 
 # 5. 复制资源文件
 echo "Copying resources..."
@@ -115,12 +124,13 @@ cp -r "$DIR/src/main/resources/"* "$CLASSES_DIR/"
 # 6. 打包生成 jar
 LIBS_DIR="$BUILD_DIR/libs"
 mkdir -p "$LIBS_DIR"
-TARGET_JAR="$LIBS_DIR/easy-villagers-fabric-1.0.3.jar"
+MOD_VERSION=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["version"])' "$DIR/src/main/resources/fabric.mod.json")
+TARGET_JAR="$LIBS_DIR/easy-villagers-fabric-$MOD_VERSION.jar"
+# 每个版本只生成一个文件，避免旧文件名指向新版内容或 Release 附件重复。
+find "$LIBS_DIR" -maxdepth 1 -type f -name 'easy-villagers-fabric-*.jar' -delete
 
 echo "Packaging jar to $TARGET_JAR..."
 "$JAR" -cf "$TARGET_JAR" -C "$CLASSES_DIR" .
-cp -f "$TARGET_JAR" "$LIBS_DIR/easy-villagers-fabric-1.0.0.jar"
-cp -f "$TARGET_JAR" "$LIBS_DIR/easy-villagers-fabric-1.0.2.jar"
 
 echo "Build successful! Target: $TARGET_JAR"
 ls -lh "$TARGET_JAR"
