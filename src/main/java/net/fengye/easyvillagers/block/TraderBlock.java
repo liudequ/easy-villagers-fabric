@@ -66,7 +66,7 @@ public class TraderBlock extends class_2237 {
 
         class_2586 be = world.method_8321(pos);
         if (!(be instanceof TraderBlockEntity trader)) {
-            return class_1269.field_5814;
+            return class_1269.field_5811;
         }
 
         class_1799 mainStack = player.method_6047();
@@ -121,11 +121,12 @@ public class TraderBlock extends class_2237 {
             if (villager != null) {
                 villager.method_8259(player); // setCustomer
                 villager.method_17449(player, villager.method_5477(), villager.method_7231().method_16925()); // sendOffers
+                trader.markUpdated();
                 return class_1269.field_5812;
             }
         }
 
-        return class_1269.field_5814;
+        return class_1269.field_5811;
     }
 
     @Override

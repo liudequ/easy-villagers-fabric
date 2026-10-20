@@ -22,23 +22,23 @@ public class VillagerPickupHandler {
     private static class_1269 onUseEntity(class_1657 player, class_1937 world, class_1268 hand, class_1297 entity, class_3966 hitResult) {
         // 仅处理主手交互，避免副手触发双重事件
         if (hand != class_1268.field_5808) {
-            return class_1269.field_5814; // PASS
+            return class_1269.field_5811; // PASS (放行原版处理，切勿返回 field_5814 即 FAIL，否则会导致 Fabric 拦截并 Cancel 原版右键交易)
         }
 
         // 仅在目标为村民时处理
         if (!(entity instanceof class_1646 villager)) {
-            return class_1269.field_5814; // PASS
+            return class_1269.field_5811; // PASS
         }
 
         // 玩家必须潜行（Shift）
         if (!player.method_5715()) {
-            return class_1269.field_5814; // PASS
+            return class_1269.field_5811; // PASS
         }
 
         // 玩家主手必须为空手
         class_1799 mainStack = player.method_6047();
         if (!mainStack.method_7960()) {
-            return class_1269.field_5814; // PASS
+            return class_1269.field_5811; // PASS
         }
 
         // 客户端直接返回 SUCCESS 阻止原版交易界面弹出

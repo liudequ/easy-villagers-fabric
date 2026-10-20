@@ -115,11 +115,12 @@ cp -r "$DIR/src/main/resources/"* "$CLASSES_DIR/"
 # 6. 打包生成 jar
 LIBS_DIR="$BUILD_DIR/libs"
 mkdir -p "$LIBS_DIR"
-TARGET_JAR="$LIBS_DIR/easy-villagers-fabric-1.0.2.jar"
+TARGET_JAR="$LIBS_DIR/easy-villagers-fabric-1.0.3.jar"
 
 echo "Packaging jar to $TARGET_JAR..."
 "$JAR" -cf "$TARGET_JAR" -C "$CLASSES_DIR" .
 cp -f "$TARGET_JAR" "$LIBS_DIR/easy-villagers-fabric-1.0.0.jar"
+cp -f "$TARGET_JAR" "$LIBS_DIR/easy-villagers-fabric-1.0.2.jar"
 
 echo "Build successful! Target: $TARGET_JAR"
 ls -lh "$TARGET_JAR"

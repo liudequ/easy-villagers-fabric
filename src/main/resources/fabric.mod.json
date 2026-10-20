@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "easy_villagers",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "Easy Villagers (Fabric)",
   "description": "Port of Easy Villagers to Fabric 1.20.1. Pick up villagers, trade easily, and automate villager breeding & farming in single-block cages.",
   "authors": [

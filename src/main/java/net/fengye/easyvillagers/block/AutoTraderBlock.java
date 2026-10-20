@@ -77,7 +77,7 @@ public class AutoTraderBlock extends class_2237 {
 
         class_2586 be = world.method_8321(pos);
         if (!(be instanceof AutoTraderBlockEntity autoTrader)) {
-            return class_1269.field_5814;
+            return class_1269.field_5811;
         }
 
         class_1799 mainStack = player.method_6047();
@@ -143,7 +143,7 @@ public class AutoTraderBlock extends class_2237 {
             }
         }
 
-        return class_1269.field_5814;
+        return class_1269.field_5811;
     }
 
     @Override
