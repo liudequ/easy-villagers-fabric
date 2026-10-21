@@ -144,6 +144,20 @@ public final class PreviewSmoke implements ModInitializer {
             traderBe.markUpdated();
         });
 
+        // 测试交易柜中 Shift 批量交易（快捷移动产物槽）：验证不会抛出 ClassCastException 且批量交易正常
+        class_1728 handler = (class_1728) player.field_7512;
+        class_1914 r0 = handler.method_17438().get(0);
+        player.method_31548().method_5442();
+        player.method_31548().method_5447(0, new class_1799(r0.method_19272().method_7909(), 64));
+        handler.method_20215(0);
+        check(handler.method_7611(0).method_7677().method_7947() > 0, "recipe 0 fills input slot with items");
+        check(!handler.method_7611(2).method_7677().method_7960(), "recipe 0 produces output in slot 2");
+
+        // 模拟玩家按住 Shift 点击产物槽（SlotActionType.QUICK_MOVE）
+        handler.method_7593(2, 0, class_1713.field_7794, player);
+        check(player.method_31548().method_7379(r0.method_8250()), "player inventory received traded items via shift-click");
+        check(r0.method_8249() > 0, "villager offer uses increased after shift-click trades");
+
         // 模拟关闭交易窗口
         cachedCured.method_8259(null);
         traderBe.updateVillagerTagFromCached();

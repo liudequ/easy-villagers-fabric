@@ -3,7 +3,10 @@
   "minVersion": "0.8",
   "package": "net.fengye.easyvillagers.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["VillagerTradePreviewMixin"],
+  "mixins": [
+    "VillagerTradePreviewMixin",
+    "MerchantScreenHandlerMixin"
+  ],
   "client": ["MerchantScreenPreviewMixin"],
   "injectors": {"defaultRequire": 1}
 }

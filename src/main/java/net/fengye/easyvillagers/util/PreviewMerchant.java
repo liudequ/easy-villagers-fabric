@@ -9,15 +9,19 @@ import net.minecraft.class_1916;
 import net.minecraft.class_3414;
 
 /** 一次开窗的商人适配器；屏幕两端索引完全一致，原村民只存真实交易。 */
-final class PreviewMerchant implements class_1915 {
+public final class PreviewMerchant implements class_1915 {
     private final class_1646 villager;
     private final class_1916 offers;
     private final Runnable onChange;
 
-    PreviewMerchant(class_1646 villager, class_1916 offers, Runnable onChange) {
+    public PreviewMerchant(class_1646 villager, class_1916 offers, Runnable onChange) {
         this.villager = villager;
         this.offers = offers;
         this.onChange = onChange;
+    }
+
+    public class_1646 getVillager() {
+        return villager;
     }
 
     @Override public void method_8259(class_1657 player) {

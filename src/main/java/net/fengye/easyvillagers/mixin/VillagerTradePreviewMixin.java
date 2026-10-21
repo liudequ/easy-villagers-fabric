@@ -113,6 +113,13 @@ public abstract class VillagerTradePreviewMixin implements VillagerPreviewAccess
         }
     }
 
+    @Inject(method = "method_19182", at = @At("TAIL"))
+    private void easyVillagers$reapplyCureDiscountsOnRestock(CallbackInfo ci) {
+        if (easyVillagers$cured) {
+            VillagerTradePreviewHelper.applyCureDiscounts((class_1646) (Object) this);
+        }
+    }
+
     // 只替换原版已经通过存活、成年、非忙碌等校验后的开窗步骤。
     @Inject(method = "method_19191", at = @At("HEAD"), cancellable = true)
     private void easyVillagers$openPreview(class_1657 player, CallbackInfo ci) {
